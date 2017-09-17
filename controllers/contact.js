@@ -1,11 +1,11 @@
 var nodemailer = require('nodemailer')
-var transporter = nodemailer.createTransport({
-  service: 'Mailgun',
+const mg = require('nodemailer-mailgun-transport')
+var transporter = nodemailer.createTransport(mg({
   auth: {
-    user: process.env.MAILGUN_USERNAME,
-    pass: process.env.MAILGUN_PASSWORD
+    api_key: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN
   }
-})
+}))
 
 /**
  * GET /contact
@@ -34,8 +34,8 @@ exports.contactPost = function (req, res) {
 
   var mailOptions = {
     from: req.body.name + ' ' + '<' + req.body.email + '>',
-    to: 'your@email.com',
-    subject: '✔ Contact Form | Mega Boilerplate',
+    to: 'matt.a.elphy@gmail.com',
+    subject: '✔ Contact Form | Manapot',
     text: req.body.message
   }
 

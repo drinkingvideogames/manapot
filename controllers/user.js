@@ -1,6 +1,7 @@
 var async = require('async')
 var crypto = require('crypto')
 var nodemailer = require('nodemailer')
+const mg = require('nodemailer-mailgun-transport')
 var jwt = require('jsonwebtoken')
 var moment = require('moment')
 var request = require('request')
@@ -210,22 +211,22 @@ exports.forgotPost = function (req, res, next) {
         user.passwordResetToken = token
         user.passwordResetExpires = Date.now() + 3600000 // expire in 1 hour
         user.save(function (err) {
+          console.log('save err', err)
           if (err) return res.status(500).send(err)
           done(err, token, user)
         })
       })
     },
     function (token, user, done) {
-      var transporter = nodemailer.createTransport({
-        service: 'Mailgun',
+      var transporter = nodemailer.createTransport(mg({
         auth: {
-          user: process.env.MAILGUN_USERNAME,
-          pass: process.env.MAILGUN_PASSWORD
+          api_key: process.env.MAILGUN_API_KEY,
+          domain: process.env.MAILGUN_DOMAIN
         }
-      })
+      }))
       var mailOptions = {
         to: user.email,
-        from: 'support@yourdomain.com',
+        from: process.env.MAILGUN_FROM,
         subject: '✔ Reset your password on Mega Boilerplate',
         text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -273,15 +274,14 @@ exports.resetPost = function (req, res, next) {
         })
     },
     function (user, done) {
-      var transporter = nodemailer.createTransport({
-        service: 'Mailgun',
+      var transporter = nodemailer.createTransport(mg({
         auth: {
-          user: process.env.MAILGUN_USERNAME,
-          pass: process.env.MAILGUN_PASSWORD
+          api_key: process.env.MAILGUN_API_KEY,
+          domain: process.env.MAILGUN_DOMAIN
         }
-      })
+      }))
       var mailOptions = {
-        from: 'support@yourdomain.com',
+        from: process.env.MAILGUN_FROM,
         to: user.email,
         subject: 'Your Mega Boilerplate password has been changed',
         text: 'Hello,\n\n' +
