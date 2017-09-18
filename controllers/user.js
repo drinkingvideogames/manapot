@@ -211,7 +211,6 @@ exports.forgotPost = function (req, res, next) {
         user.passwordResetToken = token
         user.passwordResetExpires = Date.now() + 3600000 // expire in 1 hour
         user.save(function (err) {
-          console.log('save err', err)
           if (err) return res.status(500).send(err)
           done(err, token, user)
         })
@@ -303,7 +302,7 @@ exports.authFacebook = function (req, res) {
   var profileFields = ['id', 'name', 'email', 'gender', 'location']
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token'
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + profileFields.join(',')
-
+  console.log('clientId', req.body.clientId, 'secret', process.env.FACEBOOK_SECRET)
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,

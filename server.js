@@ -15,6 +15,7 @@ var jwt = require('jsonwebtoken')
 var sass = require('node-sass-middleware')
 var webpack = require('webpack')
 var config = require('./webpack.config')
+const favicon = require('serve-favicon')
 
 // Load environment variables from .env file
 dotenv.load()
@@ -55,6 +56,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(expressValidator())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.use(function (req, res, next) {
   req.isAuthenticated = function () {
@@ -86,6 +88,12 @@ if (app.get('env') === 'development') {
   app.use(require('webpack-hot-middleware')(compiler))
 }
 
+const apis = {
+  genre: require('./controllers/genre'),
+  drink: require('./controllers/drink'),
+  game: require('./controllers/game')
+}
+
 app.post('/contact', contactController.contactPost)
 app.put('/account', userController.ensureAuthenticated, userController.accountPut)
 app.delete('/account', userController.ensureAuthenticated, userController.accountDelete)
@@ -100,6 +108,9 @@ app.post('/auth/google', userController.authGoogle)
 app.get('/auth/google/callback', userController.authGoogleCallback)
 app.post('/auth/twitter', userController.authTwitter)
 app.get('/auth/twitter/callback', userController.authTwitterCallback)
+app.use('/api/genre', apis.genre)
+app.use('/api/drink', apis.drink)
+app.use('/api/game', apis.game)
 
 // React server rendering
 app.use(function (req, res) {
@@ -121,7 +132,8 @@ app.use(function (req, res) {
       ))
       res.render('layout', {
         html: html,
-        initialState: store.getState()
+        initialState: store.getState(),
+        title: 'Manapot'
       })
     } else {
       res.sendStatus(404)

@@ -1,5 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
+var dotenv = require('dotenv')
+
+dotenv.load()
+
+process.traceDeprecation = true
 
 var config = {
   devtool: 'cheap-module-eval-source-map',
@@ -14,10 +19,11 @@ var config = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.FACEBOOK_ID': JSON.stringify(process.env.FACEBOOK_ID)
     })
   ],
   module: {

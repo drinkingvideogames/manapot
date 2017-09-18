@@ -9,7 +9,7 @@ import fetch from '../lib/fetch'
 export function facebookLogin () {
   const facebook = {
     url: 'http://localhost:3000/auth/facebook',
-    clientId: '980220002068787',
+    clientId: process.env.FACEBOOK_ID,
     redirectUri: 'http://localhost:3000/auth/facebook/callback',
     authorizationUrl: 'https://www.facebook.com/v2.5/dialog/oauth',
     scope: 'email,user_location',

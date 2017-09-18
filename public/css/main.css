@@ -1160,7 +1160,11 @@ html {
   min-height: 100%; }
 
 body {
-  margin-bottom: 44px; }
+  margin-bottom: 44px;
+  overflow-x: hidden; }
+
+a {
+  text-decoration: none; }
 
 ul, ol {
   list-style: none; }

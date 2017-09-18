@@ -1,36 +1,32 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Grid from 'material-ui/Grid';
+import { withStyles } from 'material-ui/styles'
 import Messages from './Messages'
+import DrinkCard from './DrinkCard'
+
+const styles = theme => ({
+  container: {
+    marginTop: '20px'
+  }
+})
 
 class Home extends React.Component {
   render () {
+    const classes = this.props.classes;
     return (
-      <div className='container'>
+      <Grid container className={classes.container}>
         <Messages messages={this.props.messages} />
-        <div className='row'>
-          <div className='col-sm'>
-            <h3>Heading</h3>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
-              mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
-              mollis euismod. Donec sed odio dui.</p>
-            <a href='#' role='button'>View details</a>
-          </div>
-          <div className='col-sm'>
-            <h3>Heading</h3>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
-              mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
-              mollis euismod. Donec sed odio dui.</p>
-            <a href='#' role='button'>View details</a>
-          </div>
-          <div className='col-sm'>
-            <h3>Heading</h3>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
-              mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
-              mollis euismod. Donec sed odio dui.</p>
-            <a href='#' role='button'>View details</a>
-          </div>
-        </div>
-      </div>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={8}>
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => (
+              <Grid key={value} item>
+                <DrinkCard />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
     )
   }
 }
@@ -41,4 +37,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(withStyles(styles)(Home))
