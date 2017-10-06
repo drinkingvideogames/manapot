@@ -300,7 +300,7 @@ exports.authFacebook = (req, res) => {
   var profileFields = ['id', 'name', 'email', 'gender', 'location']
   var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token'
   var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + profileFields.join(',')
-  console.log('clientId', req.body.clientId, 'secret', process.env.FACEBOOK_SECRET)
+
   var params = {
     code: req.body.code,
     client_id: req.body.clientId,
@@ -329,7 +329,7 @@ exports.authFacebook = (req, res) => {
           if (user) {
             return res.status(409).send({ msg: 'There is already an existing account linked with Facebook that belongs to you.' })
           }
-          user = req.user
+          user = new User(req.user)
           user.name = user.name || profile.name
           user.picture = user.picture || 'https://graph.facebook.com/' + profile.id + '/picture?type=large'
           user.facebook = profile.id
@@ -405,7 +405,7 @@ exports.authGoogle = (req, res) => {
           if (user) {
             return res.status(409).send({ msg: 'There is already an existing account linked with Google that belongs to you.' })
           }
-          user = req.user
+          user = new User(req.user)
           user.name = user.name || profile.name
           user.picture = user.picture || profile.picture.replace('sz=50', 'sz=200')
           user.google = profile.sub
@@ -499,7 +499,7 @@ exports.authTwitter = (req, res) => {
             if (user) {
               return res.status(409).send({ msg: 'There is already an existing account linked with Twitter that belongs to you.' })
             }
-            user = req.user
+            user = new User(req.user)
             user.name = user.name || profile.name
             user.picture = user.picture || profile.profile_image_url_https
             user.twitter = profile.id

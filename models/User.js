@@ -59,7 +59,6 @@ userSchema.virtual('gravatar').get(function () {
 })
 
 userSchema.virtual('permissions').get(function () {
-  console.log('permissions')
   const flattenedPerms = this.roles.reduce((perms, role) => (perms.concat(role.permissions)), [])
   const uniquePerms = new Set(flattenedPerms)
   return [ ...uniquePerms ]

@@ -1,7 +1,7 @@
 import React from 'react'
 import BaseButton from './Base'
 
-function GoogleButton ({ classes, filled, ...props }) {
+function GoogleButton (props) {
   const styles = theme => ({
     normal: {
       color: '#df4a32'

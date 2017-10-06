@@ -67,7 +67,7 @@ class Header extends React.Component {
             </Typography>
             <GameAutosuggest />
             <div className={classes.navLeft}>
-              {user && user.permissions.includes('admin:all') ? (
+              {user && user.permissions && user.permissions.includes('admin:all') ? (
                 [ <IndexLink to='/users' key='users'><Button color='contrast'>Users</Button></IndexLink>,
                   <IndexLink to='/users/roles' key='roles'><Button color='contrast'>Roles</Button></IndexLink>
                 ]
