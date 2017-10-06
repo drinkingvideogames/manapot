@@ -7,6 +7,7 @@ var moment = require('moment')
 var request = require('request')
 var qs = require('querystring')
 var User = require('../models/User')
+var Role = require('../models/Role')
 
 function generateToken (user) {
   var payload = {
@@ -16,6 +17,16 @@ function generateToken (user) {
     exp: moment().add(7, 'days').unix()
   }
   return jwt.sign(payload, process.env.TOKEN_SECRET)
+}
+
+function isFirstUser () {
+  return User.find()
+    .then((users) => {
+      return !(users && users.length > 0)
+    }, (err) => {
+      console.error(err)
+      return false
+    })
 }
 
 /**
@@ -87,7 +98,32 @@ exports.signupPost = (req, res, next) => {
       email: req.body.email,
       password: req.body.password
     })
-    user.save((err) => {
+    isFirstUser().then((isFirst) => {
+      if (isFirst) {
+        console.log('MAKING FIRST USER WITH ALL ROLES')
+        Role.find()
+          .then((roles) => {
+            user.roles = (roles && roles.map((role) => (role._id))) || []
+            console.log('ADMIN USER', user.toJSON())
+            user.save((err) => {
+              if (err) return res.status(500).send(err)
+              user.populate('roles').execPopulate().then((user) => {
+                res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+              })
+            })
+          })
+          .catch((err) => {
+            if (err) return res.status(500).send(err)
+            res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+          })
+      } else {
+        user.save((err) => {
+          if (err) return res.status(500).send(err)
+          res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+        })
+      }
+    })
+    .catch((err) => {
       if (err) return res.status(500).send(err)
       res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
     })

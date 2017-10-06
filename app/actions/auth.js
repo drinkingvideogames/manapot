@@ -35,6 +35,7 @@ export function login (email, password) {
         })
       }
     })
+    .catch(console.error)
   }
 }
 
@@ -65,6 +66,7 @@ export function signup (name, email, password) {
         }
       })
     })
+    .catch(console.error)
   }
 }
 
@@ -102,6 +104,7 @@ export function forgotPassword (email) {
         })
       }
     })
+    .catch(console.error)
   }
 }
 
@@ -135,6 +138,7 @@ export function resetPassword (password, confirm, pathToken) {
         })
       }
     })
+    .catch(console.error)
   }
 }
 
@@ -170,6 +174,7 @@ export function updateProfile (state, token) {
         })
       }
     })
+    .catch(console.error)
   }
 }
 
@@ -205,6 +210,7 @@ export function changePassword (password, confirm, token) {
         })
       }
     })
+    .catch(console.error)
   }
 }
 
@@ -230,5 +236,6 @@ export function deleteAccount (token) {
         })
       }
     })
+    .catch(console.error)
   }
 }
