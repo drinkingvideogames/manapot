@@ -1,5 +1,8 @@
 @import 'normalize';
 @import 'flexboxgrid';
+@import './animations';
+@import './admin-editor';
+@import './loading';
 
 html {
   position: relative;
@@ -59,14 +62,17 @@ form button[type="submit"] {
 
 .text-success {
   color: #29b35b;
+  font-weight: bold;
 }
 
-.text-danger {
-  color: #b61b17;
+.text-error {
+  color: #df4a32;
+  font-weight: bold;
 }
 
 .text-info {
   color: #31708f;
+  font-weight: bold;
 }
 
 .avatar {

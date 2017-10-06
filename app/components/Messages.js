@@ -1,19 +1,28 @@
 import React from 'react'
+import Snackbar from 'material-ui/Snackbar'
 
 class Messages extends React.Component {
+  renderSnackbar (type) {
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        open
+        autoHideDuration={6000}
+        message={<span className={`text-${type}`}>{this.props.messages[type].map((msg, i) => (<div key={msg.msg}>{msg.msg}</div>))}</span>}
+      />
+    )
+  }
+
   render () {
     return this.props.messages.success ? (
-      <div role='alert' className='text-success'>
-        {this.props.messages.success.map((message, index) => <div key={index}>{message.msg}</div>)}
-      </div>
+      this.renderSnackbar('success')
     ) : this.props.messages.error ? (
-      <div role='alert' className='text-danger'>
-        {this.props.messages.error.map((message, index) => <div key={index}>{message.msg}</div>)}
-      </div>
+      this.renderSnackbar('error')
     ) : this.props.messages.info ? (
-      <div role='alert' className='text-info'>
-        {this.props.messages.info.map((message, index) => <div key={index}>{message.msg}</div>)}
-      </div>
+      this.renderSnackbar('info')
     ) : null
   }
 }

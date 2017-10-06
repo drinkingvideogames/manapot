@@ -1,0 +1,31 @@
+.editable {
+    cursor: pointer;
+
+    &:hover:before {
+        content: " ";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        z-index: -1;
+    }
+
+    &:not(:hover):after {
+        content: "\f14b";
+        right: -15px;
+        font-size: 30px;
+        top: -10px;
+        font-family: FontAwesome;
+        font-size: 16px;
+        position: absolute;
+    }
+}
+
+.page-action {
+    position: fixed !important;
+    bottom: 5vh;
+    right: 3vw;
+}

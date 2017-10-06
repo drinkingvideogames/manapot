@@ -1155,6 +1155,98 @@ textarea {
     -ms-flex-order: 1;
     order: 1; } }
 
+@-webkit-keyframes run {
+  from {
+    left: -150px; }
+  to {
+    left: 100vw; } }
+
+@-moz-keyframes run {
+  from {
+    left: -150px; }
+  to {
+    left: 100vw; } }
+
+@-o-keyframes run {
+  from {
+    left: -150px; }
+  to {
+    left: 100vw; } }
+
+@keyframes run {
+  from {
+    left: -150px; }
+  to {
+    left: 100vw; } }
+
+.editable {
+  cursor: pointer; }
+  .editable:hover:before {
+    content: " ";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: -1; }
+  .editable:not(:hover):after {
+    content: "\f14b";
+    right: -15px;
+    font-size: 30px;
+    top: -10px;
+    font-family: FontAwesome;
+    font-size: 16px;
+    position: absolute; }
+
+.page-action {
+  position: fixed !important;
+  bottom: 5vh;
+  right: 3vw; }
+
+.loading.container {
+  box-sizing: border-box;
+  position: relative;
+  margin-top: 30vh;
+  transform: translateY(-50%);
+  width: 100%; }
+
+.loading.run {
+  -moz-animation-duration: 3.5s;
+  -o-animation-duration: 3.5s;
+  animation-duration: 3.5s;
+  -moz-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -moz-animation-name: run;
+  -o-animation-name: run;
+  animation-name: run;
+  -moz-animation-direction: normal;
+  -o-animation-direction: normal;
+  animation-direction: normal;
+  background-image: url(/imgs/loading.gif-c200);
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  height: 150px;
+  position: absolute;
+  top: 50px;
+  width: 150px; }
+
+.loading.title {
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%; }
+
 html {
   position: relative;
   min-height: 100%; }
@@ -1201,13 +1293,16 @@ form button[type="submit"] {
   padding-left: 2rem; }
 
 .text-success {
-  color: #29b35b; }
+  color: #29b35b;
+  font-weight: bold; }
 
-.text-danger {
-  color: #b61b17; }
+.text-error {
+  color: #df4a32;
+  font-weight: bold; }
 
 .text-info {
-  color: #31708f; }
+  color: #31708f;
+  font-weight: bold; }
 
 .avatar {
   margin-right: 5px;

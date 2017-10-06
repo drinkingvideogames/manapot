@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 
 const DrinkSchema = new Schema({
   name: { type: String, required: true },
-  userId: { type: Schema.Types.ObjectId, required: true },
+  createdBy: { type: Schema.Types.ObjectId, required: true },
+  modifiedBy: { type: Schema.Types.ObjectId, required: true },
   url: { type: String, required: true },
   steps: { type: Array, required: true }
 })

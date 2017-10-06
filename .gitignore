@@ -16,6 +16,7 @@ coverage
 
 # API keys
 .env
+.env*
 
 # Dependency directory
 node_modules
@@ -32,3 +33,5 @@ Thumbs.db
 # Generated files
 public/js/bundle.js
 
+# User files
+public/uploads/

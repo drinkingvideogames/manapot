@@ -13,7 +13,7 @@ const store = configureStore(window.INITIAL_STATE)
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={muiTheme}>
-        <Router history={browserHistory} routes={getRoutes(store)} />
+      <Router history={browserHistory} routes={getRoutes(store)} />
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')

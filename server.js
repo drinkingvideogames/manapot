@@ -28,7 +28,7 @@ require('babel-polyfill')
 var User = require('./models/User')
 
 // Controllers
-var userController = require('./controllers/user')
+var authController = require('./controllers/auth')
 var contactController = require('./controllers/contact')
 
 // React and Server-Side Rendering
@@ -70,11 +70,13 @@ app.use(function (req, res, next) {
 
   if (req.isAuthenticated()) {
     var payload = req.isAuthenticated()
-    User.findById(payload.sub, function (err, user) {
-      if (err) return next(err)
-      req.user = user
-      next()
-    })
+    User.findById(payload.sub)
+      .populate('roles')
+      .then((user) => {
+        req.user = user.toObject({ virtuals: true })
+        next()
+      }, next)
+      .catch(next)
   } else {
     next()
   }
@@ -91,26 +93,30 @@ if (app.get('env') === 'development') {
 const apis = {
   genre: require('./controllers/genre'),
   drink: require('./controllers/drink'),
-  game: require('./controllers/game')
+  game: require('./controllers/game'),
+  user: require('./controllers/user'),
+  role: require('./controllers/role')
 }
 
 app.post('/contact', contactController.contactPost)
-app.put('/account', userController.ensureAuthenticated, userController.accountPut)
-app.delete('/account', userController.ensureAuthenticated, userController.accountDelete)
-app.post('/signup', userController.signupPost)
-app.post('/login', userController.loginPost)
-app.post('/forgot', userController.forgotPost)
-app.post('/reset/:token', userController.resetPost)
-app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink)
-app.post('/auth/facebook', userController.authFacebook)
-app.get('/auth/facebook/callback', userController.authFacebookCallback)
-app.post('/auth/google', userController.authGoogle)
-app.get('/auth/google/callback', userController.authGoogleCallback)
-app.post('/auth/twitter', userController.authTwitter)
-app.get('/auth/twitter/callback', userController.authTwitterCallback)
+app.put('/account', authController.ensureAuthenticated, authController.accountPut)
+app.delete('/account', authController.ensureAuthenticated, authController.accountDelete)
+app.post('/signup', authController.signupPost)
+app.post('/login', authController.loginPost)
+app.post('/forgot', authController.forgotPost)
+app.post('/reset/:token', authController.resetPost)
+app.get('/unlink/:provider', authController.ensureAuthenticated, authController.unlink)
+app.post('/auth/facebook', authController.authFacebook)
+app.get('/auth/facebook/callback', authController.authFacebookCallback)
+app.post('/auth/google', authController.authGoogle)
+app.get('/auth/google/callback', authController.authGoogleCallback)
+app.post('/auth/twitter', authController.authTwitter)
+app.get('/auth/twitter/callback', authController.authTwitterCallback)
 app.use('/api/genre', apis.genre)
 app.use('/api/drink', apis.drink)
 app.use('/api/game', apis.game)
+app.use('/api/user', apis.user)
+app.use('/api/role', apis.role)
 
 // React server rendering
 app.use(function (req, res) {

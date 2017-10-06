@@ -1,0 +1,31 @@
+.loading {
+    &.container {
+        box-sizing: border-box;
+        position: relative;
+        margin-top: 30vh;
+        transform: translateY(-50%);
+        width: 100%;
+    }
+
+    &.run {
+        @include run;
+        background-image: url(/imgs/loading.gif-c200);
+        background-position: center;
+        background-repeat: no-repeat;
+        display: block;
+        height: 150px;
+        position: absolute;
+        top: 50px;
+        width: 150px;
+    }
+
+    &.title {
+        font-family: monospace;
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom: 20px;
+        text-transform: uppercase;
+        text-align: center;
+        width: 100%;
+    }
+}
