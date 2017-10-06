@@ -47,8 +47,8 @@ class AuthForm extends React.Component {
 
   handleSignup (event) {
     event.preventDefault()
-    const action = (this.purpose === 'Signup') ? signup : login
-    const args = (this.purpose === 'Signup')
+    const action = (this.state.purpose === 'Signup') ? signup : login
+    const args = (this.state.purpose === 'Signup')
       ? [ this.state.name, this.state.email, this.state.password ]
       : [ this.state.email, this.state.password ]
     this.props.dispatch(action.apply(this, args))
