@@ -22,7 +22,7 @@ function generateToken (user) {
 function isFirstUser () {
   return User.find()
     .then((users) => {
-      return !(users && users.length === 1)
+      return (!users || users.length === 1)
     }, (err) => {
       console.error(err)
       return false
