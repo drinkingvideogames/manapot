@@ -73,7 +73,7 @@ app.use(function (req, res, next) {
     User.findById(payload.sub)
       .populate('roles')
       .then((user) => {
-        req.user = user.toObject({ virtuals: true })
+        if (user) req.user = user.toObject({ virtuals: true })
         next()
       }, next)
       .catch(next)

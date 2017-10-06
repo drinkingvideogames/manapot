@@ -41,7 +41,7 @@ class Header extends React.Component {
         <IndexLink to='/contact'><Button color='contrast'>Contact</Button></IndexLink>
         <Link to='/account'>
           <Button color='contrast'>
-            {user.name || user.email}
+            {user ? user.name || user.email : 'Unknown user'}
           </Button>
         </Link>
         <a href='#' onClick={this.handleLogout.bind(this)}><Button color='contrast'>Logout</Button></a>

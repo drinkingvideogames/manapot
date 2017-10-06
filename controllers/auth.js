@@ -22,7 +22,7 @@ function generateToken (user) {
 function isFirstUser () {
   return User.find()
     .then((users) => {
-      return !(users && users.length > 0)
+      return !(users && users.length === 1)
     }, (err) => {
       console.error(err)
       return false
@@ -98,34 +98,56 @@ exports.signupPost = (req, res, next) => {
       email: req.body.email,
       password: req.body.password
     })
-    isFirstUser().then((isFirst) => {
-      if (isFirst) {
-        console.log('MAKING FIRST USER WITH ALL ROLES')
-        Role.find()
-          .then((roles) => {
-            user.roles = (roles && roles.map((role) => (role._id))) || []
-            console.log('ADMIN USER', user.toJSON())
-            user.save((err) => {
-              if (err) return res.status(500).send(err)
-              user.populate('roles').execPopulate().then((user) => {
-                res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
-              })
+    user.save((err) => {
+      if (err) return res.status(500).send(err)
+      isFirstUser().then((isFirst) => {
+        if (isFirst) {
+          console.log('MAKING FIRST USER WITH ALL ROLES')
+          Role.find()
+            .then((roles) => {
+              if (!roles || roles.length === 0) {
+                const adminRole = new Role({
+                  name: 'Admin',
+                  createdBy: user._id,
+                  modifiedBy: user._id,
+                  permissions: Role.flatPermissions()
+                })
+                adminRole.save((err) => {
+                  if (err) return res.status(500).send(err)
+                  user.roles = [ adminRole._id ]
+                  console.log('ADMIN USER', user.toJSON())
+                  user.save((err) => {
+                    if (err) return res.status(500).send(err)
+                    user.populate('roles').execPopulate().then((user) => {
+                      res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+                    })
+                  })
+                })
+              } else {
+                user.roles = (roles && roles.map((role) => (role._id))) || []
+                console.log('ADMIN USER', user.toJSON())
+                user.save((err) => {
+                  if (err) return res.status(500).send(err)
+                  user.populate('roles').execPopulate().then((user) => {
+                    res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+                  })
+                })
+              }
             })
-          })
-          .catch((err) => {
+            .catch((err) => {
+              if (err) return res.status(500).send(err)
+              res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+            })
+        } else {
+          user.save((err) => {
             if (err) return res.status(500).send(err)
             res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
           })
-      } else {
-        user.save((err) => {
-          if (err) return res.status(500).send(err)
-          res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
-        })
-      }
-    })
-    .catch((err) => {
-      if (err) return res.status(500).send(err)
-      res.send({ token: generateToken(user), user: user.toObject({ virtuals: true }) })
+        }
+      })
+      .catch((err) => {
+        if (err) return res.status(500).send(err)
+      })
     })
   })
 }
