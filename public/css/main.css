@@ -1180,7 +1180,9 @@ textarea {
     left: 100vw; } }
 
 .editable {
-  cursor: pointer; }
+  cursor: pointer;
+  display: inline-block !important;
+  position: relative; }
   .editable:hover:before {
     content: " ";
     position: absolute;
@@ -1199,6 +1201,31 @@ textarea {
     font-family: FontAwesome;
     font-size: 16px;
     position: absolute; }
+
+.component {
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  margin: 5px 0;
+  min-height: 59px;
+  padding: 5px;
+  position: relative;
+  width: 100%; }
+  .component:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px dashed rgba(0, 0, 0, 0.6); }
+  .component .toolbar {
+    position: absolute;
+    top: 5px;
+    right: 10px; }
+  .component.image {
+    text-align: center;
+    padding: 20px 5px; }
+  .component.counter {
+    text-align: center; }
+  .component.picker {
+    text-align: center; }
+  .component.list .listItem {
+    margin-left: 10px; }
 
 .page-action {
   position: fixed !important;
