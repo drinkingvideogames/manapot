@@ -38,7 +38,7 @@ class UsersControl extends React.Component {
   }
 
   handleEdit (state) {
-    axios(`/api/user/${state._id}/roles`, { method: 'PATCH', data: state.roles })
+    axios(`/api/user/${state._id}/roles`, { method: 'PATCH', credentials: 'same-origin', data: state.roles })
       .then((res) => {
         console.log('okay', res)
       })
