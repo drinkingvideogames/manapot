@@ -44,7 +44,7 @@ class EditGame extends React.Component {
     const { history, games } = this.props
     const { game } = this.state
     const cleanedData = this.cleanData(data)
-    axios(`/api/game/${game._id}`, { method: 'PUT', data: cleanedData })
+    axios(`/api/game/${game._id}`, { method: 'PUT', credentials: 'same-origin', data: cleanedData })
       .then((res) => {
         if (res.statusText === 'OK' && res.data ) {
           dispatch(refreshGames(games))

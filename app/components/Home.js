@@ -38,8 +38,9 @@ class Home extends React.Component {
   }
 
   render () {
-    const { classes, messages, games } = this.props
+    const { classes, messages, games, user } = this.props
     const { loaded, items } = games
+    console.log(user);
     return (
       <Grid container className={classes.container}>
         <Messages messages={messages} />
@@ -51,13 +52,20 @@ class Home extends React.Component {
                   <GameCard game={game}/>
                 </Grid>
               ))}
-              <Grid item className={classes.addIconContainer}>
-                <Link to='/game/new'>
-                  <Button fab color="primary" aria-label="new" className={classes.addButton}>
-                    <AddIcon />
-                  </Button>
-                </Link>
-              </Grid>
+              { items.length === 0
+              ? (<Grid item>There are no games currently, sorry about that.</Grid>)
+              : null
+              }
+              { user && user.permissions && user.permissions.includes('game:create') ?
+              ( <Grid item className={classes.addIconContainer}>
+                  <Link to='/game/new'>
+                    <Button fab color="primary" aria-label="new" className={classes.addButton}>
+                      <AddIcon />
+                    </Button>
+                  </Link>
+                </Grid>
+              ) : null
+              }
             </Grid>
           </Grid>
         </Loader>
@@ -68,6 +76,7 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.auth.user,
     messages: state.messages,
     games: state.games
   }
