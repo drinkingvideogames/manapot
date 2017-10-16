@@ -49,7 +49,7 @@ class UsersControl extends React.Component {
 
   handleNew (state) {
     const data = { name: state.name, permissions: [ ...state.selected ] }
-    axios('/api/role/', { method: 'POST', data })
+    axios('/api/role/', { method: 'POST', credentials: 'same-origin', data })
         .then((res) => {
           console.log('RES', res);
         })
