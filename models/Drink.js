@@ -6,8 +6,11 @@ const DrinkSchema = new Schema({
   name: { type: String, required: true },
   createdBy: { type: Schema.Types.ObjectId, required: true },
   modifiedBy: { type: Schema.Types.ObjectId, required: true },
+  game: { type: Schema.Types.ObjectId, required: true },
   url: { type: String, required: true },
-  steps: { type: Array, required: true }
+  mainColour: { type: String, required: true },
+  bgColour: { type: String, required: true },
+  layout: { type: Array, required: true }
 })
 
 DrinkSchema.index({ 'name': -1, background: true })

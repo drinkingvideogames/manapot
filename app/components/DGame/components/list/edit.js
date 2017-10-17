@@ -71,6 +71,7 @@ class ListImageComponent extends React.Component {
     }
 
     render () {
+        const { connectDragSource } = this.props
         const { subheading, list, listBullet } = this.state
         return (
             <div>
@@ -96,6 +97,7 @@ class ListImageComponent extends React.Component {
                             }
                             <span className='editable listItem'>
                                 <ContentEditable
+                                    singleLine
                                     html={item.text}
                                     onClick={this.handleListClick.bind(this, i)}
                                     onChange={this.handleListChange.bind(this, i)}
@@ -116,6 +118,7 @@ class ListImageComponent extends React.Component {
                     canDrag
                     canDelete
                     onDelete={this.handleDestroy.bind(this)}
+                    connectDragSource={connectDragSource}
                 />
             </div>
         )

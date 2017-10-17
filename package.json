@@ -43,6 +43,7 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-autosuggest": "^9.3.2",
+    "react-color": "^2.13.8",
     "react-cookie": "^0.4.5",
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",

@@ -15,6 +15,7 @@ class EditTextComponent extends React.Component {
     }
 
     render () {
+        const { connectDragSource } = this.props
         return(
             <div>
                 <Editor editorState={this.state.editorState} onChange={this.onChange} />
@@ -22,6 +23,7 @@ class EditTextComponent extends React.Component {
                     canDrag
                     canDelete
                     onDelete={this.handleDestroy.bind(this)}
+                    connectDragSource={connectDragSource}
                 />
             </div>
         )

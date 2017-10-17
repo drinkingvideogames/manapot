@@ -54,7 +54,7 @@ const styles = theme => ({
 class Template extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { loaded: false, game: {} }
+    this.state = { loaded: false, loadedGames: false, game: {}, games: [] }
   }
 
   componentDidMount () {
@@ -62,24 +62,37 @@ class Template extends React.Component {
     axios.get(`/api/game/url/${params.game}`)
       .then((res) => {
         this.setState({ loaded: true, game: res.data[0] || {} })
+        axios.get(`/api/drink/game/${res.data[0]._id}`)
+          .then((res) => {
+            this.setState({ loadedGames: true, games: res.data || [] })
+          })
+          .catch(console.error)
       })
       .catch(console.error)
   }
 
   renderDrinkingGames () {
     const { user } = this.props
-    const { game } = this.state
+    const { game, games } = this.state
     const NoGamesMessage = (<Grid item><Typography>There don't appear to be any drinking games for this game yet!</Typography></Grid>);
     const NewGamePrompt = (
-      <Grid item>
-        <Link to={`/game/${game.url}/dgame/new`}>
+      <Grid item key='newgameprompt'>
+        <Link to={`/game/${game.url}/drink/new`}>
           <Button fab color="primary" aria-label="new">
             <AddIcon />
           </Button>
         </Link>
       </Grid>
     )
-    return user ? NewGamePrompt : NoGamesMessage
+    let Games = games.map((dgame) => (
+      <Link key={dgame._id} to={`/game/${game.url}/drink/${dgame.url}`}>
+        <Grid item style={{ background: dgame.mainColour }}>
+          {dgame.name}
+        </Grid>
+      </Link>
+    ))
+    if (user) Games = Games.concat(NewGamePrompt);
+    return games && games.length > 0 ? Games : (user ? NewGamePrompt : NoGamesMessage)
   }
 
   renderDrinkingGameContainer () {
@@ -90,7 +103,7 @@ class Template extends React.Component {
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, user } = this.props
     const { loaded, game } = this.state
     return (
       <Loader loaded={loaded}>
@@ -113,11 +126,14 @@ class Template extends React.Component {
               </Grid>
             </Grid>
           </Paper>
-          <Link to={`/game/${game.url}/edit`}>
-            <Button fab color="accent" aria-label="save" className={classes.editButton}>
-              <EditIcon />
-            </Button>
-          </Link>
+          { user && user.permissions && user.permissions.includes('game:edit') ?
+            <Link to={`/game/${game.url}/edit`}>
+              <Button fab color="accent" aria-label="save" className={classes.editButton}>
+                <EditIcon />
+              </Button>
+            </Link> :
+            null
+          }
         </div>
       </Loader>
     )

@@ -14,6 +14,7 @@ class EditNamePickerComponent extends React.Component {
     }
 
     render () {
+        const { connectDragSource } = this.props
         const { names } = this.state
         return (
             <div>
@@ -24,6 +25,7 @@ class EditNamePickerComponent extends React.Component {
                     canDrag
                     canDelete
                     onDelete={this.handleDestroy.bind(this)}
+                    connectDragSource={connectDragSource}
                 />
             </div>
         )

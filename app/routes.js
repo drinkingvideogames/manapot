@@ -48,9 +48,9 @@ export default function getRoutes (store) {
       <Route path='/game/new' component={NewGame} onEnter={ensureAuthenticatedPermission('game:create')} onLeave={clearMessages} />
       <Route path='/game/:game/edit' component={EditGame} onEnter={ensureAuthenticatedPermission('game:edit')} onLeave={clearMessages} />
       <Route path='/game/:game' component={TemplateGame} />
-      <Route path='/game/:game/dgame/new' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:create')} onLeave={clearMessages} />
-      <Route path='/game/:game/dgame/edit' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:edit')} onLeave={clearMessages} />
-      <Route path='/game/:game/dgame/:dgame' component={TemplateDGame} />
+      <Route path='/game/:game/drink/new' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:create')} onLeave={clearMessages} />
+      <Route path='/game/:game/drink/edit' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:edit')} onLeave={clearMessages} />
+      <Route path='/game/:game/drink/:dgame' component={TemplateDGame} />
       <Route path='/users' component={UsersControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
       <Route path='/users/roles' component={RolesControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
       <Route path='*' component={NotFound} onLeave={clearMessages} />

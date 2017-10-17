@@ -56,7 +56,7 @@ class EditYoutubeComponent extends React.Component {
     }
 
     render () {
-        const { componentId } = this.props
+        const { componentId, connectDragSource } = this.props
         const { videoId } = this.state
         return (
             <div style={{ position: 'relative', height: '360px' }}>
@@ -66,6 +66,7 @@ class EditYoutubeComponent extends React.Component {
                     canDrag
                     canDelete
                     onDelete={this.handleDestroy.bind(this)}
+                    connectDragSource={connectDragSource}
                 />
             </div>
         )

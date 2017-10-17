@@ -14,6 +14,7 @@ class EditImageComponent extends React.Component {
     }
 
     render () {
+        const { connectDragSource } = this.props
         return (
             <div>
                 <CollectionIcon />
@@ -21,6 +22,7 @@ class EditImageComponent extends React.Component {
                     canDrag
                     canDelete
                     onDelete={this.handleDestroy.bind(this)}
+                    connectDragSource={connectDragSource}
                 />
             </div>
         )

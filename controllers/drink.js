@@ -1,9 +1,20 @@
 const router = require('express').Router()
 const Model = require('../models/Drink')
+const Game = require('../models/Game')
 const { handleError, returnResponse } = require('./lib/util')
 
 router.get('/', (req, res) => {
   Model.find()
+    .then((items) => {
+      if (!items) return res.status(401).send({ msg: 'No resources exist' })
+      res.send(items)
+    })
+    .catch(handleError(res))
+})
+
+router.get('/game/:gameId', (req, res) => {
+  if (!req.params.gameId) return res.status(401).send({ msg: 'Requires game id' })
+  Model.find({ game: req.params.gameId })
     .then((items) => {
       if (!items) return res.status(401).send({ msg: 'No resources exist' })
       res.send(items)
@@ -29,9 +40,15 @@ router.put('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  Model.create(Object.assign({ createdBy: req.user._id, modifiedBy: req.user._id }, req.body))
-    .then(returnResponse(res))
+  Game.findOne(({ url: req.body.gameUrl }))
+    .then((game) => {
+      if (!game) return res.status(401).send({ msg: 'No game exists' })
+      Model.create(Object.assign({ createdBy: req.user._id, modifiedBy: req.user._id, game: game._id }, req.body))
+        .then(returnResponse(res))
+        .catch(handleError(res))
+    })
     .catch(handleError(res))
+
 })
 
 router.delete('/:id', (req, res) => {

@@ -16,6 +16,7 @@ class EditCounterComponent extends React.Component {
     }
 
     render () {
+        const { connectDragSource } = this.props
         const { label } = this.state
         return (
             <div>
@@ -29,6 +30,7 @@ class EditCounterComponent extends React.Component {
                     canDrag
                     canDelete
                     onDelete={this.handleDestroy.bind(this)}
+                    connectDragSource={connectDragSource}
                 />
             </div>
         )

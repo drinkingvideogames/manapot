@@ -1,63 +1,12 @@
 import React from 'react'
-import { DragDropContextProvider, DropTarget } from 'react-dnd'
+import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { withStyles } from 'material-ui/styles'
-import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import SaveIcon from 'material-ui-icons/Save'
-import uuid from 'uuid'
+import axios from 'axios'
 import ComponentsSidebar from './parts/ComponentsSidebar'
-
-const styles = theme => ({
-  paper: theme.mixins.gutters({
-    paddingTop: 16,
-    paddingBottom: 16
-  })
-})
-
-const items = []
-
-const pageTarget = {
-  drop (props, monitor, component) {
-    const item = monitor.getItem()
-    component.props.onDrop.call(component, component.layoutRefs)
-  }
-}
-
-function collect (connect, monitor) {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
-  }
-}
-
-class Page extends React.Component {
-    constructor (props) {
-        super(props)
-        this.layoutRefs = {}
-    }
-
-    render () {
-        const { connectDropTarget, classes, layout, removeFromPage } = this.props
-        return connectDropTarget(
-            <div>
-                <Paper className={classes.paper}>
-                    {layout && layout.length > 0 ? null : <div style={{ textAlign: 'center' }}>Drag items here to build the page</div>}
-                    {layout.map((component, i) => {
-                        const toRender = React.createElement(component.edit, {
-                            componentId: component.componentId,
-                            destroy: () => { if (removeFromPage) removeFromPage(i) },
-                            ref: (ref) => { this.layoutRefs[component.componentId] = ref }
-                        })
-                        return (<div className={`component ${component.classes || ''}`} key={component.componentId}>{toRender}</div>)
-                    })}
-                </Paper>
-            </div>
-        )
-    }
-}
-
-const PageContent = withStyles(styles)(DropTarget('component', pageTarget, collect)(Page))
+import Layout from './parts/Layout'
+import PageDetailsSidebar from './parts/PageDetailsSidebar'
 
 class NewDrinkingGame extends React.Component {
     constructor (props) {
@@ -65,9 +14,11 @@ class NewDrinkingGame extends React.Component {
         this.state = { layout: [] }
     }
 
-    changeLayout (component) {
+    changeLayout (component, insertIndex) {
         const { layout } = this.state
-        this.setState({ layout: layout.concat(component) })
+        const layoutClone = [].concat(layout)
+        layoutClone.splice(insertIndex || (layout.length - 1), 0, component)
+        this.setState({ layout: layoutClone })
     }
 
     removeFromLayout (i) {
@@ -77,23 +28,47 @@ class NewDrinkingGame extends React.Component {
         this.setState({ layout: layoutClone })
     }
 
+    moveItem (fromIndex, toIndex, component) {
+        const { layout } = this.state
+        const layoutClone = [].concat(layout)
+        if (fromIndex !== undefined) {
+            const moved = layoutClone.splice(fromIndex, 1)[0]
+            layoutClone.splice(toIndex, 0, moved)
+        } else {
+            layoutClone.splice(toIndex, 0, component)
+        }
+        this.setState({ layout: layoutClone })
+    }
+
     updateState (states) {
         this.states = states
     }
 
     handleAction () {
-        console.log('saving', this.state.layout.map((comp) => (this.states[comp.componentId])))
+        const { params } = this.props
+        const pageComponents = this.state.layout.map((comp) =>
+            ({ state: this.states[comp.componentId].component.state, componentId: comp.componentId, component: comp.name })
+        )
+        const pageDetails = this.details._reactInternalInstance._renderedComponent._instance.state
+        const data = Object.assign({}, pageDetails, { layout: pageComponents, gameUrl: params.game })
+        axios('/api/drink/', { method: 'POST', credentials: 'same-origin', data })
+            .then((res) => {
+                console.log('what', res)
+            })
+            .catch(console.error)
     }
 
     render () {
+        console.log(this.props)
         const { classes } = this.props
         const { layout } = this.state
         return (
             <DragDropContextProvider backend={HTML5Backend}>
                 <div className='container'>
-                    <PageContent onDrop={this.updateState.bind(this)} layout={layout} removeFromPage={this.removeFromLayout.bind(this)} />
-                    <ComponentsSidebar changeLayout={this.changeLayout.bind(this)}/>
-                    <Button fab color="primary" aria-label="new" onClick={this.handleAction.bind(this)}>
+                    <Layout changeLayout={this.changeLayout.bind(this)} onDrop={this.updateState.bind(this)} layout={layout} removeFromPage={this.removeFromLayout.bind(this)} moveItem={this.moveItem.bind(this)} />
+                    <ComponentsSidebar />
+                    <PageDetailsSidebar ref={(details) => { this.details = details }}/>
+                    <Button fab color="primary" aria-label="new" className="page-action" onClick={this.handleAction.bind(this)}>
                         <SaveIcon />
                     </Button>
                 </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
 import { withStyles } from 'material-ui/styles'
@@ -15,10 +16,7 @@ const itemSource = {
     endDrag (props, monitor) {
         const { component } = monitor.getItem()
         const dropped = monitor.didDrop()
-
         if (!dropped) return
-
-        props.changeLayout(component)
     }
 }
 
@@ -36,13 +34,11 @@ const styles = theme => ({
 function collect (connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   }
 }
 
-const DragItem = ({ connectDragSource, connectDragPreview, component, classes }) => {
-    connectDragPreview(<div>Drag me</div>)
+const DragItem = ({ connectDragSource, component, classes }) => {
     return connectDragSource(
         <div className={classes.root}>
             <Chip className={classes.chip} label={component.name} />
