@@ -44,10 +44,18 @@ class NewDrinkingGame extends React.Component {
         this.states = states
     }
 
+    getAndCleanComponentState (comp) {
+        let state = this.states[comp.componentId].component.state
+        if (comp.componentKey === 'text') {
+            delete state.editorState
+        }
+        return state
+    }
+
     handleAction () {
         const { params } = this.props
         const pageComponents = this.state.layout.map((comp) =>
-            ({ state: this.states[comp.componentId].component.state, componentId: comp.componentId, component: comp.name })
+            ({ state: this.getAndCleanComponentState(comp), componentId: comp.componentId, component: comp.name, componentKey: comp.componentKey })
         )
         const pageDetails = this.details._reactInternalInstance._renderedComponent._instance.state
         const data = Object.assign({}, pageDetails, { layout: pageComponents, gameUrl: params.game })
@@ -59,7 +67,6 @@ class NewDrinkingGame extends React.Component {
     }
 
     render () {
-        console.log(this.props)
         const { classes } = this.props
         const { layout } = this.state
         return (

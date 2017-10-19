@@ -30,29 +30,19 @@ class DrinkCard extends React.Component {
   }
 
   render () {
-    const { classes, drink } = this.props
+    const { classes, drink, game } = this.props
     const { hovered } = this.state
     return (
-      <Link to={`/game/${drink && drink.game && drink.game.url}/${drink && drink.url}`}>
+      <Link to={`/game/${game.url}/drink/${drink.url}`}>
         <Card
           raised={hovered}
           className={classes.card}
           onMouseEnter={this.onMouseEnter.bind(this)}
           onMouseLeave={this.onMouseLeave.bind(this)}
+          style={{ background: drink.bgColour }}
         >
-          { drink && drink.game && drink.game.images && drink.game.images.banner ? (
-              <CardMedia
-                className={classes.media}
-                image={`/uploads/${drink.game.images.banner[0].filename}`}
-                title={drink.name}
-              />
-            ) : null
-          }
           <CardContent>
-            <Typography type='headline' component='h1'>
-              {drink && drink.game && drink.game.name}{' '}|
-            </Typography>
-            <Typography type='headline' component='h2'>
+            <Typography type='headline' component='h2' style={{ color: drink.mainColour }}>
               {drink && drink.name}
             </Typography>
           </CardContent>

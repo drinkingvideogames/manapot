@@ -22,7 +22,7 @@ const ComponentSidebar = ({ classes, changeLayout }) => {
             <List>
                 <ListSubheader>Components</ListSubheader>
                 {Object.keys(components).map((compName) => (
-                    <ComponentDragItem key={compName} component={components[compName]} changeLayout={changeLayout} />
+                    <ComponentDragItem key={compName} componentKey={compName} component={components[compName]} changeLayout={changeLayout} />
                 ))}
             </List>
         </Paper>

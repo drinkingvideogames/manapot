@@ -31,9 +31,19 @@ export default function getRoutes (store) {
       replace('/')
     }
   }
+  const clearStyles = () => {
+    document.body.querySelector('#app > div > div > header').style = ''
+    document.body.style = ''
+  }
   const clearMessages = () => {
     store.dispatch({
       type: 'CLEAR_MESSAGES'
+    })
+  }
+  function call () {
+    const argsArray = [...arguments]
+    argsArray.forEach((func) => {
+      if (typeof func === 'function') func()
     })
   }
   return (
@@ -48,9 +58,9 @@ export default function getRoutes (store) {
       <Route path='/game/new' component={NewGame} onEnter={ensureAuthenticatedPermission('game:create')} onLeave={clearMessages} />
       <Route path='/game/:game/edit' component={EditGame} onEnter={ensureAuthenticatedPermission('game:edit')} onLeave={clearMessages} />
       <Route path='/game/:game' component={TemplateGame} />
-      <Route path='/game/:game/drink/new' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:create')} onLeave={clearMessages} />
+      <Route path='/game/:game/drink/new' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:create')} onLeave={call.bind(null, clearMessages, clearStyles)} />
       <Route path='/game/:game/drink/edit' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:edit')} onLeave={clearMessages} />
-      <Route path='/game/:game/drink/:dgame' component={TemplateDGame} />
+      <Route path='/game/:game/drink/:dgame' component={TemplateDGame} onLeave={clearStyles} />
       <Route path='/users' component={UsersControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
       <Route path='/users/roles' component={RolesControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
       <Route path='*' component={NotFound} onLeave={clearMessages} />

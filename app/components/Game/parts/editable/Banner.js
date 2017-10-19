@@ -81,7 +81,7 @@ class EditableGameBanner extends React.Component {
         <Dropzone
           accept='image/jpg, image/jpeg, image/png, image/gif'
           multiple={false}
-          maxSize={100000}
+          maxSize={10000000}
           onDrop={this.handleBannerDrop.bind(this)}
           style={
                   Object.assign({}, localStyles.bannerImage, {

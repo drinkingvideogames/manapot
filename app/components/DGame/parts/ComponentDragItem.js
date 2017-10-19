@@ -9,9 +9,9 @@ import uuid from 'uuid'
 
 const itemSource = {
     beginDrag (props) {
-        const { component } = props
+        const { component, componentKey } = props
         const componentId = uuid()
-        return { component: Object.assign({ componentId }, component) }
+        return { component: Object.assign({ componentId, componentKey }, component) }
     },
     endDrag (props, monitor) {
         const { component } = monitor.getItem()

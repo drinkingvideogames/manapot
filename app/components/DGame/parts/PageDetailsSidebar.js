@@ -10,7 +10,7 @@ const styles = theme => ({
     root: {
         textAlign: 'center',
         width: '100%',
-        maxWidth: '20vw',
+        maxWidth: '16vw',
         position: 'fixed',
         left: theme.spacing.unit * 5,
         top: theme.spacing.unit * 10

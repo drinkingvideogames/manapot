@@ -1,12 +1,13 @@
 import React from 'react'
-import { Editor, EditorState } from 'draft-js'
+import { Editor, EditorState, convertToRaw } from 'draft-js'
 import Toolbar from '../parts/Toolbar'
 
 class EditTextComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { editorState: EditorState.createEmpty() }
-        this.onChange = (editorState) => this.setState({ editorState })
+        const editorState = EditorState.createEmpty()
+        this.state = { editorState: editorState, raw: convertToRaw(editorState.getCurrentContent()) }
+        this.onChange = (editorState) => this.setState({ editorState, raw: convertToRaw(editorState.getCurrentContent()) })
     }
 
     handleDestroy () {
@@ -15,6 +16,7 @@ class EditTextComponent extends React.Component {
     }
 
     render () {
+        console.log(this.state.raw)
         const { connectDragSource } = this.props
         return(
             <div>

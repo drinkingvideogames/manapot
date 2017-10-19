@@ -2,6 +2,7 @@ const path = require('path')
 const multer = require('multer')
 const router = require('express').Router()
 const Model = require('../models/Game')
+const { ensureAuthenticated } = require('./auth')
 const { handleError, returnResponse } = require('./lib/util')
 
 const storage = multer.diskStorage({
@@ -46,7 +47,7 @@ router.get('/url/:url', (req, res) => {
     .catch(handleError(res))
 })
 
-router.put('/:id', gameUpload, (req, res) => {
+router.put('/:id', ensureAuthenticated, gameUpload, (req, res) => {
   if (!req.params.id) return res.status(400).send({ msg: 'Requires id' })
   console.log('body', req.body, 'files', req.files);
   const existingImages = req.body.images ? JSON.parse(req.body.images) : {}
@@ -55,14 +56,14 @@ router.put('/:id', gameUpload, (req, res) => {
     .catch(handleError(res))
 })
 
-router.post('/', gameUpload, (req, res) => {
+router.post('/', ensureAuthenticated, gameUpload, (req, res) => {
   console.log('body', req.body, 'files', req.files);
   Model.create(Object.assign({}, req.body, { images: req.files, createdBy: req.user._id, modifiedBy: req.user._id }))
     .then(returnResponse(res))
     .catch(handleError(res))
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
   if (!req.params.id) return res.status(400).send({ msg: 'Requires id' })
   Model.deleteOne({ _id: req.params.id })
     .then((result) => {

@@ -23,7 +23,7 @@ export function login (email, password) {
             token: json.token,
             user: json.user
           })
-          cookie.save('token', json.token, { expires: moment().add(1, 'hour').toDate() })
+          cookie.save('token', json.token, { expires: moment().add(1, 'hour').toDate(), path: '/' })
           browserHistory.push('/account')
         })
       } else {
@@ -57,7 +57,7 @@ export function signup (name, email, password) {
             user: json.user
           })
           browserHistory.push('/')
-          cookie.save('token', json.token, { expires: moment().add(1, 'hour').toDate() })
+          cookie.save('token', json.token, { expires: moment().add(1, 'hour').toDate(), path: '/' })
         } else {
           dispatch({
             type: 'SIGNUP_FAILURE',

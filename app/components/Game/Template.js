@@ -8,8 +8,9 @@ import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import AddIcon from 'material-ui-icons/Add'
 import EditIcon from 'material-ui-icons/Edit'
-import Loader from '../lib/MainLoader'
 import axios from 'axios'
+import Loader from '../lib/MainLoader'
+import DrinkCard from '../Cards/Drink'
 
 const styles = theme => ({
   paper: theme.mixins.gutters({
@@ -85,11 +86,9 @@ class Template extends React.Component {
       </Grid>
     )
     let Games = games.map((dgame) => (
-      <Link key={dgame._id} to={`/game/${game.url}/drink/${dgame.url}`}>
-        <Grid item style={{ background: dgame.mainColour }}>
-          {dgame.name}
-        </Grid>
-      </Link>
+      <Grid item key={dgame._id}>
+        <DrinkCard game={game} drink={dgame} />
+      </Grid>
     ))
     if (user) Games = Games.concat(NewGamePrompt);
     return games && games.length > 0 ? Games : (user ? NewGamePrompt : NoGamesMessage)
