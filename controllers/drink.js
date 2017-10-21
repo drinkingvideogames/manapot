@@ -45,15 +45,19 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', ensureAuthenticated, (req, res) => {
   if (!req.params.id) return res.status(400).send({ msg: 'Requires id' })
-  Model.replaceOne({ _id: req.params.id }, Object.assign({ modifiedBy: req.user._id }, req.body))
-    .then(returnResponse(res))
+  Game.findOne(({ url: req.body.gameUrl }))
+    .then((game) => {
+      if (!game) return res.status(401).send({ msg: 'No game exists' })
+      Model.replaceOne({ _id: req.params.id }, Object.assign({ modifiedBy: req.user._id, game: game._id }, req.body))
+        .then(returnResponse(res))
+        .catch(handleError(res))
+    })
     .catch(handleError(res))
 })
 
 router.post('/', ensureAuthenticated, (req, res) => {
   Game.findOne(({ url: req.body.gameUrl }))
     .then((game) => {
-      console.log('GAME', game, req.body.gameUrl, req.user)
       if (!game) return res.status(401).send({ msg: 'No game exists' })
       Model.create(Object.assign({ createdBy: req.user._id, modifiedBy: req.user._id, game: game._id }, req.body))
         .then(returnResponse(res))

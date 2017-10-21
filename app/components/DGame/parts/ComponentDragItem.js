@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
 import { withStyles } from 'material-ui/styles'
 import { ListItem, ListItemText } from 'material-ui/List'
+import OpenWithIcon from 'material-ui-icons/OpenWith'
 import Chip from 'material-ui/Chip'
 import uuid from 'uuid'
 
@@ -28,6 +29,12 @@ const styles = theme => ({
   },
   chip: {
     cursor: 'pointer'
+  },
+  chipHandle: {
+    width: '18px',
+    height: '18px',
+    marginRight: '-8px',
+    paddingLeft: '8px'
   }
 })
 
@@ -41,7 +48,7 @@ function collect (connect, monitor) {
 const DragItem = ({ connectDragSource, component, classes }) => {
     return connectDragSource(
         <div className={classes.root}>
-            <Chip className={classes.chip} label={component.name} />
+            <Chip avatar={<OpenWithIcon className={classes.chipHandle}/>} className={classes.chip} label={component.name} />
         </div>
     )
 }

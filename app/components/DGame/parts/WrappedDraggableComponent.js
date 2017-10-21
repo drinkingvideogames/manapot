@@ -53,11 +53,13 @@ function collectComponentSource (connect, monitor) {
 
 class DraggableComponent extends React.Component {
     render () {
-        const { component, i, remove, connectDragSource, connectDragPreview, connectDropTarget  } = this.props
+        const { component, i, remove, connectDragSource, connectDragPreview, connectDropTarget, initialState } = this.props
         const toRender = React.createElement(component.edit, {
             componentId: component.componentId,
+            componentKey: component.componentKey,
             destroy: () => { if (remove) remove(i) },
             ref: (comp) => { this.component = comp },
+            initialState,
             connectDragSource
         })
         return connectDragPreview(connectDropTarget(<div className={`component ${component.classes || ''}`}>{toRender}</div>))

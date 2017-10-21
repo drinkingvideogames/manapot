@@ -6,7 +6,7 @@ import Contact from './components/Contact'
 import NotFound from './components/NotFound'
 import { AuthForm, Profile, Forgot, Reset } from './components/Account'
 import { NewGame, TemplateGame, EditGame } from './components/Game'
-import { NewDGame, TemplateDGame } from './components/DGame'
+import { NewDGame, TemplateDGame, EditDGame } from './components/DGame'
 import { UsersControl, RolesControl } from './components/UserManagement'
 
 export default function getRoutes (store) {
@@ -59,7 +59,7 @@ export default function getRoutes (store) {
       <Route path='/game/:game/edit' component={EditGame} onEnter={ensureAuthenticatedPermission('game:edit')} onLeave={clearMessages} />
       <Route path='/game/:game' component={TemplateGame} />
       <Route path='/game/:game/drink/new' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:create')} onLeave={call.bind(null, clearMessages, clearStyles)} />
-      <Route path='/game/:game/drink/edit' component={NewDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:edit')} onLeave={clearMessages} />
+      <Route path='/game/:game/drink/:dgame/edit' component={EditDGame} onEnter={ensureAuthenticatedPermission('drinkinggame:edit')} onLeave={call.bind(null, clearMessages, clearStyles)} />
       <Route path='/game/:game/drink/:dgame' component={TemplateDGame} onLeave={clearStyles} />
       <Route path='/users' component={UsersControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
       <Route path='/users/roles' component={RolesControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />

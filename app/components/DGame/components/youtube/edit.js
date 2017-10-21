@@ -9,7 +9,7 @@ import Toolbar from '../parts/Toolbar'
 class EditYoutubeComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { videoId: '' }
+        this.state = Object.assign({ videoId: '' }, props.initialState)
     }
 
     componentDidMount () {

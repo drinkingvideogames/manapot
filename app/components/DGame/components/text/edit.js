@@ -16,7 +16,6 @@ class EditTextComponent extends React.Component {
     }
 
     render () {
-        console.log(this.state.raw)
         const { connectDragSource } = this.props
         return(
             <div>

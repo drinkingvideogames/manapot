@@ -11,6 +11,13 @@ const muiTheme = createMuiTheme({
         blue,
         { A400: '#0074b7' }
     )
+  },
+  overrides: {
+    MuiListSubheader: {
+        root: {
+            lineHeight: '30px'
+        }
+    }
   }
 })
 

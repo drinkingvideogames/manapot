@@ -10,11 +10,11 @@ import ContentEditable from '../../../lib/ContentEditable'
 class ListImageComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
+        this.state = Object.assign({
             subheading: 'List Sub Heading',
             listBullet: '',
             list: [ { text: 'Item 1', id: 0 } ]
-        }
+        }, props.initialState)
     }
 
     addItem () {

@@ -3,15 +3,13 @@ import Grid from 'material-ui/Grid'
 import Typography from 'material-ui/Typography'
 import Chip from 'material-ui/Chip'
 import IconButton from 'material-ui/IconButton'
-import Button from 'material-ui/Button'
 import AddIcon from 'material-ui-icons/Add'
 import Toolbar from '../parts/Toolbar'
-import { BlockPicker } from 'react-color'
 
 class EditRandomSelectorComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { options: [ { text: 'Option' } ] }
+        this.state = Object.assign({ options: [ { text: 'Option' } ] }, props.initialState)
     }
 
     handleNew () {
@@ -43,8 +41,6 @@ class EditRandomSelectorComponent extends React.Component {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Button raised color="primary">Choose!</Button>
-                <BlockPicker colors={['#1976d2', '#2196f3', '#D9E3F0', '#F47373', '#697689', '#37D67A', '#555555', '#dce775', '#ff8a65', '#ba68c8']}/>
                 <Toolbar
                     canDrag
                     canDelete

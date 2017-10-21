@@ -6,7 +6,7 @@ import Toolbar from '../parts/Toolbar'
 class EditHeadingComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { text: 'Heading', type: 'display2' }
+        this.state = Object.assign({ text: 'Heading', type: 'display2' }, props.initialState)
     }
 
     handleTextChange (e, text) {

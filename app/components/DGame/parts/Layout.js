@@ -16,7 +16,7 @@ const pageTarget = {
     const item = monitor.getItem()
     const isOver = monitor.isOver()
     const isOverCurrent = monitor.isOver({ shallow: true })
-    component.props.onDrop.call(component, component.layoutRefs)
+    component.props.onDrop(component.layoutRefs)
     if (isOver && isOverCurrent) {
         component.props.changeLayout(item.component)
     }
@@ -38,13 +38,13 @@ class Page extends React.Component {
     }
 
     render () {
-        const { connectDropTarget, classes, layout, removeFromPage, moveItem } = this.props
+        const { connectDropTarget, classes, layout, removeFromPage, moveItem, initialStates, onDrop } = this.props
         return connectDropTarget(
             <div>
                 <Paper className={classes.paper}>
                     {layout && layout.length > 0 ? null : <div style={{ textAlign: 'center' }}>Drag items here to build the page</div>}
                     {layout.map((component, i) => {
-                        return (
+                        const wrappedComponent = (
                             <WrappedDraggableComponent
                                 component={component}
                                 i={i}
@@ -52,10 +52,14 @@ class Page extends React.Component {
                                 remove={removeFromPage}
                                 key={component.componentId}
                                 ref={(wrappedComp) => {
-                                    this.layoutRefs[component.componentId] = getWrappedComponentInstance(wrappedComp)
+                                    const componentInstance = getWrappedComponentInstance(wrappedComp)
+                                    this.layoutRefs[component.componentId] = componentInstance
+                                    onDrop(this.layoutRefs)
                                 }}
+                                initialState={(initialStates || {})[component.componentId]}
                             />
                         )
+                        return wrappedComponent
                     })}
                 </Paper>
             </div>

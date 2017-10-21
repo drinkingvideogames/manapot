@@ -1,7 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import axios from 'axios'
 import { withStyles } from 'material-ui/styles'
 import Paper from 'material-ui/Paper'
+import Button from 'material-ui/Button'
+import EditIcon from 'material-ui-icons/Edit'
 import Loader from '../lib/MainLoader'
 import components from './components'
 
@@ -10,50 +14,74 @@ const styles = theme => ({
   paper: theme.mixins.gutters({
     paddingTop: 16,
     paddingBottom: 16
-  })
+  }),
+  editButton: {
+    position: 'fixed',
+    right: '6vw',
+    top: '10vh'
+  }
 })
 
 class DrinkingGameTemplate extends React.Component {
-    constructor (props) {
-        super(props)
-        this.state = { loaded: false, game: {} }
-    }
+  constructor (props) {
+    super(props)
+    this.state = { loaded: false, loadedGame: false, game: {}, dgame: {} }
+  }
 
-    componentDidMount () {
-        const { params } = this.props
-        axios.get(`/api/drink/url/${params.dgame}`)
-          .then((res) => {
-            this.setState({ loaded: true, game: res.data || {} }, () => {
-                const { game } = this.state
-                if (game.mainColour) document.body.querySelector('#app > div > div > header').style = `background: ${game.mainColour}`
-                if (game.bgColour) document.body.style = `background: ${game.bgColour}`
-            })
-          })
-          .catch(console.error)
-    }
+  componentDidMount () {
+    const { params } = this.props
+    axios.get(`/api/drink/url/${params.dgame}`)
+      .then((res) => {
+      this.setState({ loaded: true, dgame: res.data || {} }, () => {
+        const { dgame } = this.state
+        if (dgame.mainColour) document.body.querySelector('#app > div > div > header').style = `background: ${dgame.mainColour}`
+        if (dgame.bgColour) document.body.style = `background: ${dgame.bgColour}`
+      })
+      })
+      .catch(console.error)
+    axios.get(`/api/game/url/${params.game}`)
+      .then((res) => {
+        this.setState({ loadedGame: true, game: res.data[0] || {} })
+      })
+      .catch(console.error)
+  }
 
-    hydrateComponent({ componentKey, componentId, state }) {
-        const component = components[componentKey]
-        const toRender = React.createElement(component.view, {
-            componentId,
-            hydrationState: state
-        })
-        return (<div className="view-component" key={componentId}>{toRender}</div>)
-    }
+  hydrateComponent({ componentKey, componentId, state }) {
+    const component = components[componentKey]
+    const toRender = React.createElement(component.view, {
+      componentId,
+      hydrationState: state
+    })
+    return (<div className="view-component" key={componentId}>{toRender}</div>)
+  }
 
-    render () {
-        const { classes } = this.props
-        const { loaded, game } = this.state
-        return (
-            <Loader loaded={loaded}>
-                <div className="container">
-                    <Paper className={classes.paper}>
-                        {game.layout && game.layout.map(this.hydrateComponent.bind(this))}
-                    </Paper>
-                </div>
-            </Loader>
-        )
-    }
+  render () {
+    const { classes, user } = this.props
+    const { loaded, loadedGame, dgame, game } = this.state
+    return (
+      <Loader loaded={loaded && loadedGame}>
+        <div className="container">
+          <Paper className={classes.paper}>
+            {dgame && dgame.layout && dgame.layout.map(this.hydrateComponent.bind(this))}
+          </Paper>
+          { user && user.permissions && user.permissions.includes('drinkinggame:edit') ?
+            <Link to={`/game/${game.url}/drink/${dgame.url}/edit`}>
+              <Button fab color="accent" aria-label="save" className={classes.editButton}>
+              <EditIcon />
+              </Button>
+            </Link> :
+            null
+          }
+        </div>
+      </Loader>
+    )
+  }
 }
 
-export default withStyles(styles)(DrinkingGameTemplate)
+const mapStateToProps = (state) => {
+  return {
+  user: state.auth.user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(DrinkingGameTemplate))

@@ -12,7 +12,7 @@ const styles = theme => ({
     maxWidth: 150,
     position: 'fixed',
     right: theme.spacing.unit * 5,
-    top: theme.spacing.unit * 10
+    top: theme.spacing.unit * 22
   }
 })
 
@@ -20,7 +20,10 @@ const ComponentSidebar = ({ classes, changeLayout }) => {
     return (
         <Paper className={classes.root}>
             <List>
-                <ListSubheader>Components</ListSubheader>
+                <ListSubheader>
+                    <div>Components</div>
+                    <small>Drag onto page</small>
+                </ListSubheader>
                 {Object.keys(components).map((compName) => (
                     <ComponentDragItem key={compName} componentKey={compName} component={components[compName]} changeLayout={changeLayout} />
                 ))}

@@ -82,7 +82,7 @@ class NewGame extends React.Component {
       .then((res) => {
         if (res.statusText === 'OK' && res.data ) {
           dispatch(refreshGames(games))
-          history.replaceState(`/game/${res.data.url}`)
+          history.replace(`/game/${res.data.url}`)
         }
       })
       .catch(console.error)
