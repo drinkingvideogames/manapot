@@ -15,7 +15,10 @@ const styles = theme => ({
   root: theme.mixins.gutters({
     paddingTop: 16,
     paddingBottom: 16,
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    maxWidth: '500px',
+    marginLeft: '50%',
+    transform: 'translateX(-50%)'
   }),
   facebook: {
     color: '#3b5998'
@@ -28,6 +31,9 @@ const styles = theme => ({
   },
   textField: {
     display: 'block'
+  },
+  fullButton: {
+    width: '100%'
   }
 })
 
@@ -86,6 +92,7 @@ class AuthForm extends React.Component {
                 name='name'
                 autoFocus={this.state.purpose === 'Signup'}
                 required
+                InputClassName='auth-text-field'
               />
             ) : null
           }
@@ -100,6 +107,7 @@ class AuthForm extends React.Component {
               name='email'
               autoFocus={this.state.purpose !== 'Signup'}
               required
+              InputClassName='auth-text-field'
             />
             <TextField
               className={classes.textField}
@@ -111,20 +119,21 @@ class AuthForm extends React.Component {
               onChange={this.handleChange.bind(this)}
               name='password'
               required
+              InputClassName='auth-text-field'
             />
             { this.state.purpose === 'Signup'
           ? <Typography>By signing up, you agree to the <Link to='/'>Terms of Service</Link>.</Typography>
           : <Typography><Link to='/forgot'>Forgot your password?</Link></Typography>
           }
             { this.state.purpose === 'Signup'
-          ? <Button raised color='primary' type='submit'>Create an account</Button>
-          : <Button raised color='primary' type='submit'>Log in</Button>
+          ? <Button raised color='primary' type='submit' className={classes.fullButton}>Create an account</Button>
+          : <Button raised color='primary' type='submit' className={classes.fullButton}>Log in</Button>
           }
           </form>
           <hr />
-          <FacebookButton onClick={this.handleFacebook.bind(this)} />
-          <TwitterButton onClick={this.handleTwitter.bind(this)} />
-          <GoogleButton onClick={this.handleGoogle.bind(this)} />
+          <FacebookButton onClick={this.handleFacebook.bind(this)} style={{ width: '33%' }}/>
+          <TwitterButton onClick={this.handleTwitter.bind(this)} style={{ width: '33%' }}/>
+          <GoogleButton onClick={this.handleGoogle.bind(this)} style={{ width: '33%' }}/>
           { this.state.purpose === 'Signup'
         ? <Typography>Already have an account? <Link to='/login'>Log in</Link></Typography>
         : <Typography>Don't have an account? <Link to='/signup'>Sign up</Link></Typography>

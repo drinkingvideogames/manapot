@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { withStyles } from 'material-ui/styles'
 import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
@@ -104,6 +105,9 @@ class Profile extends React.Component {
     )
     return (
       <div className='container'>
+        <Paper className={classes.root}>
+          <Link to={`/user/${user.name}`}><Button raised>View your public profile</Button></Link>
+        </Paper>
         <Paper className={classes.root}>
           <Messages messages={messages} />
           <Typography type='display1'>Profile Information</Typography>

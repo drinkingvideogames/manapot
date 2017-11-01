@@ -13,6 +13,17 @@ const styles = {
   },
   media: {
     height: 200
+  },
+  smallCard: {
+    height: 180,
+    width: 150
+  },
+  smallMedia: {
+    height: 100
+  },
+  smallName: {
+    lineHeight: '24px',
+    fontSize: 18
   }
 }
 
@@ -31,26 +42,31 @@ class GameCard extends React.Component {
   }
 
   render () {
-    const { classes, game } = this.props
+    const { classes, game, small } = this.props
     const { hovered } = this.state
+    const classNames = {
+      card: small ? classes.smallCard : classes.card,
+      media: small ? classes.smallMedia : classes.media,
+      name: small ? classes.smallName : null
+    }
     return (
       <Link to={`/game/${game && game.url}`}>
         <Card
           raised={hovered}
-          className={classes.card}
+          className={classNames.card}
           onMouseEnter={this.onMouseEnter.bind(this)}
           onMouseLeave={this.onMouseLeave.bind(this)}
         >
-          { game && game.images && game.images.banner ? (
+          { game && game.banner && game.banner.file && game.banner.file.url ? (
               <CardMedia
-                className={classes.media}
-                image={`/uploads/${game.images.banner[0].filename}`}
+                className={classNames.media}
+                image={`${game.banner && game.banner.file && game.banner.file.url}`}
                 title={game.name}
               />
             ) : null
           }
           <CardContent>
-            <Typography type='headline' component='h2'>
+            <Typography className={classNames.name} type='headline' component='h2'>
               {game && game.name}
             </Typography>
           </CardContent>

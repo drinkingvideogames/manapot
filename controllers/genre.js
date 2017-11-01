@@ -24,13 +24,13 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', ensureAuthenticated, (req, res) => {
   if (!req.params.id) return res.status(400).send({ msg: 'Requires id' })
-  Model.replaceOne({ _id: req.params.id }, Object.assign({ modifiedBy: req.user._id }, req.body))
+  Model.findOneAndUpdate({ _id: req.params.id }, Object.assign({ updatedBy: req.user._id }, req.body))
     .then(returnResponse(res))
     .catch(handleError(res))
 })
 
 router.post('/', ensureAuthenticated, (req, res) => {
-  Model.create(Object.assign({ createdBy: req.user._id, modifiedBy: req.user._id }, req.body))
+  Model.create(Object.assign({ createdBy: req.user._id, updatedBy: req.user._id }, req.body))
     .then(returnResponse(res))
     .catch(handleError(res))
 })

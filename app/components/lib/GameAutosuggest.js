@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Autosuggest from 'react-autosuggest'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
+import Avatar from 'material-ui/Avatar'
 import { MenuItem } from 'material-ui/Menu'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
@@ -32,17 +33,17 @@ function renderInput (inputProps) {
 function renderSuggestion (suggestion, { query, isHighlighted }) {
   const matches = match(suggestion.label, query)
   const parts = parse(suggestion.label, matches)
-
   return (
     <MenuItem selected={isHighlighted} component="div">
       <div>
+        {suggestion.icon && <Avatar style={{ float: 'left', marginRight: '10px', marginTop: '5px' }} src={suggestion.icon} />}
         {parts.map((part, index) => {
           return part.highlight ? (
-            <span key={index} style={{ fontWeight: 300 }}>
+            <span key={index} style={{ fontWeight: 300, lineHeight: '50px' }}>
               {part.text}
             </span>
           ) : (
-            <strong key={index} style={{ fontWeight: 500 }}>
+            <strong key={index} style={{ fontWeight: 500, lineHeight: '50px' }}>
               {part.text}
             </strong>
           )
@@ -74,7 +75,7 @@ function getSuggestions (dispatch, items, value) {
 
   return inputLength === 0
     ? []
-    : items.map((i) => ({ label: i.name })).filter(suggestion => {
+    : items.map((i) => ({ label: i.name, icon: i.banner && i.banner.file && i.banner.file.url })).filter(suggestion => {
         const keep =
           count < 3 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue
 

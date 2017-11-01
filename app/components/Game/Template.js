@@ -41,7 +41,7 @@ const styles = theme => ({
     padding: '10px',
     textAlign: 'center',
     background: 'rgba(20, 20, 20, 0.2)',
-    backgroundSize: 'contain',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center'
   },
@@ -108,7 +108,7 @@ class Template extends React.Component {
       <Loader loaded={loaded}>
         <div className='container'>
           <div className={classes.bannerContainer}>
-            <div className={classes.bannerImage} style={{ backgroundImage: `url(/uploads/${game && game.images && game.images.banner[0].filename})` }}>
+            <div className={classes.bannerImage} style={{ backgroundImage: `url(${game && game.banner && game.banner.file && game.banner.file.url})` }}>
             </div>
             <div className={classes.bannerTitle}>
               <Typography type='display1'>

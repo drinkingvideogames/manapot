@@ -6,6 +6,7 @@ import AddIcon from 'material-ui-icons/Add'
 import CollectionIcon from 'material-ui-icons/Collections'
 import Toolbar from '../parts/Toolbar'
 import ContentEditable from '../../../lib/ContentEditable'
+import { AssetControl } from '../../../Asset'
 
 class ListImageComponent extends React.Component {
     constructor (props) {
@@ -65,6 +66,10 @@ class ListImageComponent extends React.Component {
         }
     }
 
+    handleIconChange (images) {
+        this.setState({ listBullet: images[0] || null })
+    }
+
     handleDestroy () {
         const { destroy } = this.props
         if (destroy) destroy()
@@ -89,12 +94,14 @@ class ListImageComponent extends React.Component {
                     </ListSubheader>
                     {list.map((item, i) => (
                         <ListItem key={`${item.id}`}>
-                            {listBullet ?
-                                <Avatar alt='What' src='/what' /> :
-                                <Avatar>
-                                    <CollectionIcon />
-                                </Avatar>
-                            }
+                            <AssetControl onChange={this.handleIconChange.bind(this)}>
+                                {listBullet ?
+                                    <Avatar src={listBullet && listBullet.file && listBullet.file.url} /> :
+                                    <Avatar>
+                                        <CollectionIcon />
+                                    </Avatar>
+                                }
+                            </AssetControl>
                             <span className='editable listItem'>
                                 <ContentEditable
                                     singleLine

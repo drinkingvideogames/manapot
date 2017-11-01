@@ -1,7 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withStyles } from 'material-ui/styles'
 import { resetPassword } from '../../actions/auth'
 import Messages from '../Messages'
+
+const styles = theme => ({
+  root: theme.mixins.gutters({
+    paddingTop: 16,
+    paddingBottom: 16,
+    marginTop: theme.spacing.unit * 3,
+    maxWidth: '500px',
+    marginLeft: '50%',
+    transform: 'translateX(-50%)'
+  }),
+  textField: {
+    display: 'block'
+  },
+  fullButton: {
+    width: '100%'
+  }
+})
+
 
 class Reset extends React.Component {
   constructor (props) {
@@ -41,4 +60,4 @@ const mapStateToProps = (state) => {
   return state
 }
 
-export default connect(mapStateToProps)(Reset)
+export default connect(mapStateToProps)(withStyles(styles)(Reset))

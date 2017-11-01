@@ -76,6 +76,7 @@ class EditableGameBanner extends React.Component {
       }
     }
     const classes = this.props.classes
+    console.log('eh', this.props.game)
     return (
       <div className={classes.bannerContainer}>
         <Dropzone
@@ -89,8 +90,8 @@ class EditableGameBanner extends React.Component {
                     textAlign: 'center',
                     background: 'rgba(20, 20, 20, 0.2)',
                     border: '1px dashed #000000',
-                    backgroundImage: this.props.game.banner ? `url(${this.props.game.banner.preview})` : '',
-                    backgroundSize: 'contain',
+                    backgroundImage: this.props.game.banner ? `url(${this.props.game.banner.preview || this.props.game.banner.file.url})` : '',
+                    backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center center'
                   })

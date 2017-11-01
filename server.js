@@ -95,7 +95,8 @@ const apis = {
   drink: require('./controllers/drink'),
   game: require('./controllers/game'),
   user: require('./controllers/user'),
-  role: require('./controllers/role')
+  role: require('./controllers/role'),
+  asset: require('./controllers/asset')
 }
 
 app.post('/contact', contactController.contactPost)
@@ -117,6 +118,7 @@ app.use('/api/drink', apis.drink)
 app.use('/api/game', apis.game)
 app.use('/api/user', apis.user)
 app.use('/api/role', apis.role)
+app.use('/api/asset', apis.asset)
 
 // React server rendering
 app.use(function (req, res) {

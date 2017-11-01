@@ -10,7 +10,6 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui-icons/Menu'
 import Chip from 'material-ui/Chip'
-import Avatar from 'material-ui/Avatar'
 import { logout } from '../actions/auth'
 import GameAutosuggest from './lib/GameAutosuggest'
 

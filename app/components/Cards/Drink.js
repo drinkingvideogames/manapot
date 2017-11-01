@@ -45,6 +45,9 @@ class DrinkCard extends React.Component {
             <Typography type='headline' component='h2' style={{ color: drink.mainColour }}>
               {drink && drink.name}
             </Typography>
+            <Typography type="subheading" color="secondary">
+              <Link to={`/user/${drink && drink.createdBy && drink.createdBy.name}`}>{drink && drink.createdBy && drink.createdBy.name}</Link>
+            </Typography>
           </CardContent>
         </Card>
       </Link>

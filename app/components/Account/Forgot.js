@@ -12,8 +12,17 @@ const styles = theme => ({
   root: theme.mixins.gutters({
     paddingTop: 16,
     paddingBottom: 16,
-    marginTop: theme.spacing.unit * 3
-  })
+    marginTop: theme.spacing.unit * 3,
+    maxWidth: '500px',
+    marginLeft: '50%',
+    transform: 'translateX(-50%)'
+  }),
+  textField: {
+    width: '100%'
+  },
+  fullButton: {
+    width: '100%'
+  }
 })
 
 class Forgot extends React.Component {
@@ -50,6 +59,7 @@ class Forgot extends React.Component {
               onChange={this.handleChange.bind(this)}
               autoFocus
               required
+              className={classes.textField}
           />
             <br />
             <Button type='submit'>Reset Password</Button>

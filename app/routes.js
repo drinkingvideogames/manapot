@@ -4,7 +4,7 @@ import App from './components/App'
 import Home from './components/Home'
 import Contact from './components/Contact'
 import NotFound from './components/NotFound'
-import { AuthForm, Profile, Forgot, Reset } from './components/Account'
+import { AuthForm, Profile, Forgot, Reset, PublicProfile } from './components/Account'
 import { NewGame, TemplateGame, EditGame } from './components/Game'
 import { NewDGame, TemplateDGame, EditDGame } from './components/DGame'
 import { UsersControl, RolesControl } from './components/UserManagement'
@@ -63,6 +63,7 @@ export default function getRoutes (store) {
       <Route path='/game/:game/drink/:dgame' component={TemplateDGame} onLeave={clearStyles} />
       <Route path='/users' component={UsersControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
       <Route path='/users/roles' component={RolesControl} onEnter={ensureAuthenticatedPermission('admin:all')} onLeave={clearMessages} />
+      <Route path='/user/:user' component={PublicProfile} />
       <Route path='*' component={NotFound} onLeave={clearMessages} />
     </Route>
   )

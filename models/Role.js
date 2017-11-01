@@ -21,12 +21,10 @@ const validator = (v) => {
 
 const RoleSchema = new Schema({
   name: { type: String, required: true, unique: true },
-  createdBy: { type: Schema.Types.ObjectId, required: true },
-  modifiedBy: { type: Schema.Types.ObjectId, required: true },
-  createdAt: { type: Date, default: new Date() },
-  updatedAt: { type: Date, default: new Date() },
+  createdBy: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+  updatedBy: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   permissions: [ { type: String, validate: { validator } } ]
-})
+}, { timestamps: true })
 
 RoleSchema.statics.permissions = () => {
     return permissions

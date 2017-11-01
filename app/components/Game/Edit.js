@@ -23,9 +23,6 @@ class EditGame extends React.Component {
 
   transformServerDataToClientData (data) {
     if (!data) return {}
-    data.banner = {
-      preview: `/uploads/${data.images && data.images.banner && data.images.banner[0].filename}`
-    }
     data.genre = { _id: data.genreId }
     return data
   }
@@ -57,7 +54,6 @@ class EditGame extends React.Component {
   render () {
     const { loaded, game } = this.state
     const { params } = this.props
-    console.log('rendering edit game')
     return (
       <Loader loaded={loaded}>
         {loaded ? <NewGame params={params} game={game} handleAction={this.handleSave.bind(this)} /> : null}

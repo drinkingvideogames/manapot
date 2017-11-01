@@ -17,6 +17,11 @@ const muiTheme = createMuiTheme({
         root: {
             lineHeight: '30px'
         }
+    },
+    MuiDialog: {
+      	paperWidthMd: {
+      		maxWidth: '90vw'
+      	}
     }
   }
 })

@@ -13,7 +13,7 @@ export default ({ hydrationState }) => {
             {list.map((item, i) => (
                 <ListItem key={`${item.id}`}>
                     {listBullet ?
-                        <Avatar alt='What' src='/what' /> :
+                        <Avatar src={listBullet && listBullet.file && listBullet.file.url} /> :
                         <Avatar>
                             <CollectionIcon />
                         </Avatar>

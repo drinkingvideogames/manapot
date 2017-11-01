@@ -1213,13 +1213,22 @@ textarea {
   .component:hover {
     background: rgba(0, 0, 0, 0.1);
     border: 1px dashed rgba(0, 0, 0, 0.6); }
+    .component:hover .toolbar {
+      background: rgba(0, 0, 0, 0.1); }
   .component .toolbar {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0.2em;
+    padding: 0 0 0 13px;
     position: absolute;
     top: 5px;
     right: 10px; }
   .component.image {
-    text-align: center;
-    padding: 20px 5px; }
+    text-align: center; }
+    .component.image .placeholder {
+      padding: 20px 5px; }
+    .component.image img {
+      max-height: 100%;
+      max-width: 100%; }
   .component.counter {
     text-align: center; }
   .component.picker {
@@ -1239,7 +1248,7 @@ textarea {
   transform: translateY(-50%);
   width: 100%; }
 
-.loading.run {
+.loading.kirby {
   -moz-animation-duration: 3.5s;
   -o-animation-duration: 3.5s;
   animation-duration: 3.5s;
@@ -1259,6 +1268,33 @@ textarea {
   background-image: url(/imgs/loading.gif-c200);
   background-position: center;
   background-repeat: no-repeat;
+  display: block;
+  height: 150px;
+  position: absolute;
+  top: 50px;
+  width: 150px; }
+
+.loading.pikachu {
+  -moz-animation-duration: 3.5s;
+  -o-animation-duration: 3.5s;
+  animation-duration: 3.5s;
+  -moz-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -moz-animation-name: run;
+  -o-animation-name: run;
+  animation-name: run;
+  -moz-animation-direction: normal;
+  -o-animation-direction: normal;
+  animation-direction: normal;
+  background-image: url(/imgs/pikachu.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 150px;
   display: block;
   height: 150px;
   position: absolute;
@@ -1338,3 +1374,6 @@ form button[type="submit"] {
   width: 30px;
   height: 30px;
   vertical-align: middle; }
+
+.auth-text-field {
+  width: 100%; }

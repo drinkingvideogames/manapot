@@ -1,7 +1,27 @@
+const path = require('path')
+const multer = require('multer')
 const router = require('express').Router()
-const Model = require('../models/Role')
+const Model = require('../models/Asset')
 const { ensureAuthenticated } = require('./auth')
 const { handleError, returnResponse } = require('./lib/util')
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.resolve(path.join(__dirname, '..', 'public', 'uploads')))
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+})
+const upload = multer({ storage })
+const assetUpload = upload.fields([{ name: 'assets' }])
+
+router.options('/*', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
+  res.send(200)
+})
 
 router.get('/', (req, res) => {
   Model.find()
@@ -10,13 +30,6 @@ router.get('/', (req, res) => {
       res.send(items)
     })
     .catch(handleError(res))
-})
-
-router.get('/permissions', (req, res) => {
-  res.send({
-    object: Model.permissions(),
-    flat: Model.flatPermissions()
-  })
 })
 
 router.get('/:id', (req, res) => {
@@ -36,8 +49,11 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
     .catch(handleError(res))
 })
 
-router.post('/', ensureAuthenticated, (req, res) => {
-  Model.create(Object.assign({ createdBy: req.user._id, updatedBy: req.user._id }, req.body))
+router.post('/', ensureAuthenticated, assetUpload, (req, res) => {
+  const assetCreates = req.files && req.files.assets.map((file) => {
+    return Model.create({ createdBy: req.user._id, updatedBy: req.user._id, file })
+  }) || []
+  Promise.all(assetCreates)
     .then(returnResponse(res))
     .catch(handleError(res))
 })
@@ -51,6 +67,5 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
     })
     .catch(handleError(res))
 })
-
 
 module.exports = router

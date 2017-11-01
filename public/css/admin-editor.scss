@@ -38,9 +38,16 @@
     &:hover {
         background: rgba(0, 0, 0, 0.1);
         border: 1px dashed rgba(0, 0, 0, 0.6);
+
+        .toolbar {
+            background: rgba(0, 0, 0, 0.1);
+        }
     }
 
     & .toolbar {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 0.2em;
+        padding: 0 0 0 13px;
         position: absolute;
         top: 5px;
         right: 10px;
@@ -48,7 +55,15 @@
 
     &.image {
         text-align: center;
-        padding: 20px 5px;
+
+        .placeholder {
+            padding: 20px 5px;
+        }
+
+        img {
+            max-height: 100%;
+            max-width: 100%;
+        }
     }
 
     &.counter {

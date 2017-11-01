@@ -7,11 +7,24 @@
         width: 100%;
     }
 
-    &.run {
+    &.kirby {
         @include run;
         background-image: url(/imgs/loading.gif-c200);
         background-position: center;
         background-repeat: no-repeat;
+        display: block;
+        height: 150px;
+        position: absolute;
+        top: 50px;
+        width: 150px;
+    }
+
+    &.pikachu {
+        @include run;
+        background-image: url(/imgs/pikachu.gif);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 150px;
         display: block;
         height: 150px;
         position: absolute;
