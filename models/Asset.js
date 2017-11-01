@@ -11,6 +11,7 @@ const AssetSchema = new Schema({
 AssetSchema.plugin(mongooseHistory)
 
 AssetSchema.pre('save', function (next) {
+  this.file = Array.isArray(this.file) ? this.file[0] : this.file
   this.file.url = this.file.url || (this.file.path && this.file.path.replace(/\/.+?\/public/, ''))
   next()
 })

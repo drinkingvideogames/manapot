@@ -76,7 +76,6 @@ class EditableGameBanner extends React.Component {
       }
     }
     const classes = this.props.classes
-    console.log('eh', this.props.game)
     return (
       <div className={classes.bannerContainer}>
         <Dropzone
