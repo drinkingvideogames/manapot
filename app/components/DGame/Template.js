@@ -46,7 +46,7 @@ class DrinkingGameTemplate extends React.Component {
       componentId,
       hydrationState: state
     })
-    return (<div className="view-component" key={componentId}>{toRender}</div>)
+    return (<div className={`view-component ${component.classes || ''}`} key={componentId}>{toRender}</div>)
   }
 
   render () {
