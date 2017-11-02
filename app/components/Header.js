@@ -5,11 +5,16 @@ import { connect } from 'react-redux'
 import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
+import Hidden from 'material-ui/Hidden'
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import MenuIcon from 'material-ui-icons/Menu'
+import LastPageIcon from 'material-ui-icons/LastPage'
 import Chip from 'material-ui/Chip'
+import Avatar from 'material-ui/Avatar'
+import List, { ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction } from 'material-ui/List'
+import Drawer from 'material-ui/Drawer'
 import { logout } from '../actions/auth'
 import GameAutosuggest from './lib/GameAutosuggest'
 
@@ -23,13 +28,88 @@ const styles = theme => ({
   navRight: {
     position: 'absolute',
     right: '24px'
+  },
+  sidebar: {
+    maxWidth: '80vw',
+    width: '300px'
   }
 })
 
 class Header extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { open: false }
+  }
+
   handleLogout (event) {
     event.preventDefault()
-    this.props.dispatch(logout())
+    this.setState({ open: false }, () => {
+      this.props.dispatch(logout())
+    })
+  }
+
+  toggleSidebar (open) {
+    this.setState({ open })
+  }
+
+  renderSidebar () {
+    const { open } = this.state
+    const { classes, user, token } = this.props
+    return (
+      <Drawer open={open} onRequestClose={this.toggleSidebar.bind(this, false)}>
+        <List className={classes.sidebar}>
+          { user && token ? (
+            <Link to='/account'>
+              <ListItem button onClick={this.toggleSidebar.bind(this, false)}>
+                <ListItemAvatar>
+                  <Avatar src={user && (user.picture || user.gravatar)} />
+                </ListItemAvatar>
+                <ListItemText primary={user.name} />
+                <ListItemSecondaryAction>
+                  <IconButton onClick={this.handleLogout.bind(this)}>
+                    <LastPageIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </Link>
+          ): null}
+          {user && token && user.permissions && user.permissions.includes('admin:all') ? ([
+          <Link to='/users' key='sidebarUsers' onClick={this.toggleSidebar.bind(this, false)}>
+            <ListItem button>
+              <ListItemText primary="Users" />
+            </ListItem>
+          </Link>,
+          <Link to='/users/roles' key='sidebarRoles' onClick={this.toggleSidebar.bind(this, false)}>
+            <ListItem button>
+              <ListItemText primary="Roles" />
+            </ListItem>
+          </Link>
+          ]) : null
+          }
+          {token ? ([
+            <Link to='/contact' key='sidebarContact' onClick={this.toggleSidebar.bind(this, false)}>
+              <ListItem button>
+                <ListItemText primary="Contact" />
+              </ListItem>
+            </Link>,
+            <ListItem button onClick={this.handleLogout.bind(this)} key='sidebarLogout'>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          ]) : ([
+            <Link to='/login' onClick={this.toggleSidebar.bind(this, false)}>
+              <ListItem button>
+                <ListItemText primary="Log in" />
+              </ListItem>
+            </Link>,
+            <Link to='/signup' onClick={this.toggleSidebar.bind(this, false)}>
+              <ListItem button>
+                <ListItemText primary="Sign up" />
+              </ListItem>
+            </Link>
+          ])}
+        </List>
+      </Drawer>
+    )
   }
 
   render () {
@@ -37,7 +117,7 @@ class Header extends React.Component {
     const classes = this.props.classes
     const rightNav = this.props.token ? (
       <div className={classes.navRight}>
-        <IndexLink to='/contact'><Button color='contrast'>Contact</Button></IndexLink>
+        <Link to='/contact'><Button color='contrast'>Contact</Button></Link>
         <Link to='/account'>
           <Button color='contrast'>
             {user ? user.name || user.email : 'Unknown user'}
@@ -56,25 +136,34 @@ class Header extends React.Component {
       <div >
         <AppBar position='static'>
           <Toolbar>
-            <IconButton color='contrast' aria-label='Menu'>
+            <Hidden mdUp>
+            <IconButton color='contrast' aria-label='Menu' onClick={this.toggleSidebar.bind(this, true)}>
               <MenuIcon />
             </IconButton>
+            </Hidden>
             <Typography type='title'>
               <IndexLink to='/' className={classes.white}>
                 Manapot
               </IndexLink>
             </Typography>
+            <Hidden smDown>
             <GameAutosuggest />
+            </Hidden>
+            <Hidden xsDown>
             <div className={classes.navLeft}>
               {user && user.permissions && user.permissions.includes('admin:all') ? (
-                [ <IndexLink to='/users' key='users'><Button color='contrast'>Users</Button></IndexLink>,
-                  <IndexLink to='/users/roles' key='roles'><Button color='contrast'>Roles</Button></IndexLink>
+                [ <Link to='/users' key='users'><Button color='contrast'>Users</Button></Link>,
+                  <Link to='/users/roles' key='roles'><Button color='contrast'>Roles</Button></Link>
                 ]
               ) : null}
             </div>
+            </Hidden>
+            <Hidden xsDown>
             {rightNav}
+            </Hidden>
           </Toolbar>
         </AppBar>
+        {this.renderSidebar()}
       </div>
     )
   }
