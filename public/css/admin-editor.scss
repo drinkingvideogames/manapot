@@ -79,6 +79,14 @@
             margin-left: 10px;
         }
     }
+
+    &.random {
+        .chip {
+            background-color: rgb(220, 220, 220);
+            border-radius: 0.5em;
+            padding: 0.5em;
+        }
+    }
 }
 
 .page-action {

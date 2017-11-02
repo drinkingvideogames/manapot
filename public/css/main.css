@@ -1235,6 +1235,10 @@ textarea {
     text-align: center; }
   .component.list .listItem {
     margin-left: 10px; }
+  .component.random .chip {
+    background-color: gainsboro;
+    border-radius: 0.5em;
+    padding: 0.5em; }
 
 .page-action {
   position: fixed !important;

@@ -5,6 +5,7 @@ import Chip from 'material-ui/Chip'
 import IconButton from 'material-ui/IconButton'
 import AddIcon from 'material-ui-icons/Add'
 import Toolbar from '../parts/Toolbar'
+import ContentEditable from '../../../lib/ContentEditable'
 
 class EditRandomSelectorComponent extends React.Component {
     constructor (props) {
@@ -22,16 +23,53 @@ class EditRandomSelectorComponent extends React.Component {
         if (destroy) destroy()
     }
 
+    handleTextChange (i, e, text) {
+        const { options } = this.state
+        const tempOptions = [].concat(options)
+        tempOptions[i].text = text
+        this.setState({ options: tempOptions })
+    }
+
+    handleTextClick (i, e) {
+        const { options } = this.state
+        if (options[i].text === 'Option') {
+            const tempOptions = [].concat(options)
+            tempOptions[i].text = ''
+            this.setState({ options: tempOptions })
+        }
+    }
+
+    handleTextBlur (i, e) {
+        const { options } = this.state
+        if (options[i].text === '') {
+            const tempOptions = [].concat(options)
+            tempOptions[i].text = 'Option'
+            this.setState({ options: tempOptions })
+        }
+    }
+
     render () {
         const { connectDragSource } = this.props
         const { options } = this.state
+        console.log('RENDER')
         return (
             <div>
                 <Grid container justify='center' align='center'>
                     <Grid item xs={6}>
                         <Grid container justify='center' align='center' spacing={24}>
                             {options.map((option, i) => (
-                                <Grid item key={`${i}-${option.text}`}><Chip label={option.text}>{option.text}</Chip></Grid>
+                                <Grid item key={`${i}-${option.text}`}>
+                                    <div className='chip'>
+                                        <ContentEditable
+                                            html={option.text}
+                                            onClick={/*this.handleTextClick.bind(this, i)*/console.log}
+                                            onChange={this.handleTextChange.bind(this, i)}
+                                            onBlur={/*this.handleTextBlur.bind(this, i)*/console.log}
+                                            name='text'
+                                            contentEditable='plaintext-only'
+                                        />
+                                    </div>
+                                </Grid>
                             ))}
                             <Grid item>
                                 <IconButton onClick={this.handleNew.bind(this)}>
