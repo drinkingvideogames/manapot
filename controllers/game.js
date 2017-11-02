@@ -49,7 +49,6 @@ router.get('/url/:url', (req, res) => {
 
 router.put('/:id', ensureAuthenticated, gameAssetMiddleware, (req, res) => {
   if (!req.params.id) return res.status(400).send({ msg: 'Requires id' })
-  console.log('body', req.body, 'files', req.files);
   const existingImages = req.body.images ? JSON.parse(req.body.images) : {}
   Model.findOneAndUpdate({ _id: req.params.id }, Object.assign({}, req.body, Object.assign(existingImages, req.files), { updatedBy: req.user._id }))
     .populate('banner')
@@ -60,7 +59,6 @@ router.put('/:id', ensureAuthenticated, gameAssetMiddleware, (req, res) => {
 })
 
 router.post('/', ensureAuthenticated, gameAssetMiddleware, (req, res) => {
-  console.log('body', req.body, 'files', req.files);
   Model.create(Object.assign({}, req.body, { createdBy: req.user._id, updatedBy: req.user._id }))
     .then(returnResponse(res))
     .catch(handleError(res))

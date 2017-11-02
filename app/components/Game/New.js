@@ -63,7 +63,6 @@ class NewGame extends React.Component {
     const { user } = this.props
     const data = new FormData()
     const cleanedState = this.cleanState()
-    console.log('cleaned', cleanedState)
     const preserveFields = [ 'banner' ]
     Object.keys(cleanedState).forEach((key) => {
       let value = cleanedState[key]

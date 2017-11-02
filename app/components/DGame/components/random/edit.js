@@ -51,7 +51,6 @@ class EditRandomSelectorComponent extends React.Component {
     render () {
         const { connectDragSource } = this.props
         const { options } = this.state
-        console.log('RENDER')
         return (
             <div>
                 <Grid container justify='center' align='center'>

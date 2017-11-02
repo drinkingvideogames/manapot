@@ -32,7 +32,6 @@ class AssetControl extends React.Component {
     })
     axios('/api/asset/', { method: 'POST', credentials: 'same-origin', data })
       .then((res) => {
-        console.log(res)
         if (res.status === 200) {
           const { selected, assets } = this.state
           const updatedAssets = assets.concat(res.data)

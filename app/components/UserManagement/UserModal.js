@@ -55,7 +55,6 @@ class EditDialog extends React.Component {
     if (role) {
       const { roles } = this.state
       const roleSet = new Set(roles)
-      console.log('what', roles, role._id)
       roleSet.add(role._id)
       this.setState({ roles: [ ...roleSet ] })
     }

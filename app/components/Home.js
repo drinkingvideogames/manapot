@@ -40,7 +40,6 @@ class Home extends React.Component {
   render () {
     const { classes, messages, games, user } = this.props
     const { loaded, items } = games
-    console.log(user);
     return (
       <Grid container className={classes.container}>
         <Messages messages={messages} />
