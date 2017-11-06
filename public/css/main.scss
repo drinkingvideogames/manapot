@@ -97,4 +97,11 @@ form button[type="submit"] {
       max-width: 100%;
     }
   }
+
+  &.picker {
+    canvas {
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+  }
 }

@@ -5,7 +5,7 @@ import Toolbar from '../parts/Toolbar'
 class EditNamePickerComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = { names: [] }
+        this.state = {}
     }
 
     handleDestroy () {
@@ -15,11 +15,10 @@ class EditNamePickerComponent extends React.Component {
 
     render () {
         const { connectDragSource } = this.props
-        const { names } = this.state
         return (
             <div>
                 <Typography type='display1'>
-                    {names.length} names
+                    Roulette Will Appear Here
                 </Typography>
                 <Toolbar
                     canDrag

@@ -96,12 +96,12 @@ class Header extends React.Component {
               <ListItemText primary="Logout" />
             </ListItem>
           ]) : ([
-            <Link to='/login' onClick={this.toggleSidebar.bind(this, false)}>
+            <Link to='/login' onClick={this.toggleSidebar.bind(this, false)} key='loginBtn'>
               <ListItem button>
                 <ListItemText primary="Log in" />
               </ListItem>
             </Link>,
-            <Link to='/signup' onClick={this.toggleSidebar.bind(this, false)}>
+            <Link to='/signup' onClick={this.toggleSidebar.bind(this, false)} key='signupBtn'>
               <ListItem button>
                 <ListItemText primary="Sign up" />
               </ListItem>

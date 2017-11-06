@@ -1,4 +1,5 @@
 import React from 'react'
+import uuid from 'uuid'
 import Grid from 'material-ui/Grid'
 import Typography from 'material-ui/Typography'
 import Chip from 'material-ui/Chip'
@@ -10,12 +11,12 @@ import ContentEditable from '../../../lib/ContentEditable'
 class EditRandomSelectorComponent extends React.Component {
     constructor (props) {
         super(props)
-        this.state = Object.assign({ options: [ { text: 'Option' } ] }, props.initialState)
+        this.state = Object.assign({ options: [ { id: uuid(), text: 'Option' } ] }, props.initialState)
     }
 
     handleNew () {
         const { options } = this.state
-        this.setState({ options: options.concat([ { text: 'Option' } ]) })
+        this.setState({ options: options.concat([ { id: uuid(), text: 'Option' } ]) })
     }
 
     handleDestroy () {
@@ -57,9 +58,11 @@ class EditRandomSelectorComponent extends React.Component {
                     <Grid item xs={6}>
                         <Grid container justify='center' align='center' spacing={24}>
                             {options.map((option, i) => (
-                                <Grid item key={`${i}-${option.text}`}>
+                                <Grid item key={`${i}-${option.id}`}>
                                     <div className='chip'>
+                                        {options.id}
                                         <ContentEditable
+                                            singleLine
                                             html={option.text}
                                             onClick={/*this.handleTextClick.bind(this, i)*/console.log}
                                             onChange={this.handleTextChange.bind(this, i)}

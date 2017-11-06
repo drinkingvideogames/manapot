@@ -1388,3 +1388,7 @@ form button[type="submit"] {
   .view-component.image img {
     height: auto;
     max-width: 100%; }
+
+.view-component.picker canvas {
+  margin-left: 50%;
+  transform: translateX(-50%); }
