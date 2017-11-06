@@ -50,8 +50,8 @@ class Picker extends React.Component {
   }
 
   render () {
-    const { newOption, option, options } = this.state
-    const selectedOption = (Number.isInteger(option) && options[option]) || 'Add some names, and press the button!'
+    const { newOption, option, options, toClear } = this.state
+    const selectedOption = (!toClear && Number.isInteger(option) && options[option]) || 'Add some names, and press the button!'
     return (
       <div>
         <Grid container spacing={24} style={{ flexGrow: 1 }}>

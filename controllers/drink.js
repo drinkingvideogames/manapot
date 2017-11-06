@@ -40,6 +40,20 @@ router.get('/url/:url', (req, res) => {
     .catch(handleError(res))
 })
 
+router.get('/:drinkId/vote/', (req, res) => {
+  if (!req.params.drinkId) return res.status(401).send({ msg: 'Requires id' })
+  Model.findById(req.params.drinkId)
+    .then((item) => {
+      if (!item) return res.status(401).send({ msg: 'No resources exist' })
+      const data = {
+        voted: item.voted(req.user._id),
+        vote: item.upvoted(req.user._id) ? 'up' : (item.downvoted(req.user._id) ? 'down' : 'unknown')
+      }
+      returnResponse(res)(data)
+    })
+    .catch(handleError(res))
+})
+
 router.get('/:id', (req, res) => {
   if (!req.params.id) return res.status(400).send({ msg: 'Requires id' })
   Model.findById(req.params.id)
@@ -72,6 +86,21 @@ router.post('/', ensureAuthenticated, assetMiddleware(), /*componentAssetMiddlew
       Model.create(Object.assign({ createdBy: req.user._id, updatedBy: req.user._id, game: game._id }, req.body))
         .then(returnResponse(res))
         .catch(handleError(res))
+    })
+    .catch(handleError(res))
+})
+
+router.post('/:drinkId/vote/:vote', ensureAuthenticated, (req, res) => {
+  if (!req.params.drinkId) return res.status(401).send({ msg: 'Requires id' })
+  if (req.params.vote !== 'up' && req.params.vote !== 'down') return res.status(401).send({ msg: 'Vote must be up or down' })
+  Model.findById(req.params.drinkId)
+    .then((item) => {
+      if (!item) return res.status(401).send({ msg: 'No resources exist' })
+      const method = req.params.vote === 'up' ? 'upvote' : 'downvote'
+      item[method](req.user._id, function (err, doc) {
+        if (err) return handleError(res)(err)
+        returnResponse(res)(doc)
+      })
     })
     .catch(handleError(res))
 })

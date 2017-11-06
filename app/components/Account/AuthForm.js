@@ -18,7 +18,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     maxWidth: '500px',
     marginLeft: '50%',
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-50%)',
+    width: '90vw'
   }),
   facebook: {
     color: '#3b5998'

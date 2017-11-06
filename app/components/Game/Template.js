@@ -87,7 +87,7 @@ class Template extends React.Component {
     )
     let Games = games.map((dgame) => (
       <Grid item key={dgame._id}>
-        <DrinkCard game={game} drink={dgame} />
+        <DrinkCard votable game={game} drink={dgame} />
       </Grid>
     ))
     if (user) Games = Games.concat(NewGamePrompt);
