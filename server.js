@@ -81,9 +81,8 @@ app.use(function (req, res, next) {
     next()
   }
 })
-console.log('what the fuck', app.get('env'))
+
 if (app.get('env') === 'development' || !app.get('env')) {
-  console.log('we deving this');
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath

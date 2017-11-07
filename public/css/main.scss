@@ -104,4 +104,12 @@ form button[type="submit"] {
         transform: translateX(-50%);
     }
   }
+
+  &.random {
+    text-align: center;
+
+    button {
+      margin-top: 10px;
+    }
+  }
 }

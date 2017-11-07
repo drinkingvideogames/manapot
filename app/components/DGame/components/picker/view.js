@@ -78,7 +78,7 @@ class Picker extends React.Component {
             <Button color="primary" raised onClick={this.select.bind(this)}>Random!</Button>
           </Grid>
           <Grid item xs={2} style={{ textAlign: 'center' }}>
-            <Button color="clear" raised onClick={this.clear.bind(this)}>Clear</Button>
+            <Button color="primary" raised onClick={this.clear.bind(this)}>Clear</Button>
           </Grid>
           <canvas id="canvas" width="500" height="500"></canvas>
         </Grid>
