@@ -1,4 +1,4 @@
-export default function messages (state = {}, action) {
+export function messages (state = {}, action) {
   switch (action.type) {
     case 'LOGIN_FAILURE':
     case 'SIGNUP_FAILURE':

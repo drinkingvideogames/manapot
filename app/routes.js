@@ -32,13 +32,10 @@ export default function getRoutes (store) {
     }
   }
   const clearStyles = () => {
-    document.body.querySelector('#app > div > div > header').style = ''
-    document.body.style = ''
+    store.dispatch({ type: 'RESET_STYLES' })
   }
   const clearMessages = () => {
-    store.dispatch({
-      type: 'CLEAR_MESSAGES'
-    })
+    store.dispatch({ type: 'CLEAR_MESSAGES' })
   }
   function call () {
     const argsArray = [...arguments]

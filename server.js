@@ -125,7 +125,12 @@ app.use('/api/asset', apis.asset)
 app.use(function (req, res) {
   var initialState = {
     auth: { token: req.cookies.token, user: req.user },
-    messages: {}
+    messages: {},
+    styles: {
+      mainColour: '#ffffff',
+      mainBg: '#2196f3',
+      bg: '#ffffff'
+    }
   }
 
   var store = configureStore(initialState)

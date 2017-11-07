@@ -113,7 +113,7 @@ class Header extends React.Component {
   }
 
   render () {
-    const { user } = this.props
+    const { user, controlledStyles } = this.props
     const classes = this.props.classes
     const rightNav = this.props.token ? (
       <div className={classes.navRight}>
@@ -134,7 +134,7 @@ class Header extends React.Component {
 
     return (
       <div >
-        <AppBar position='static'>
+        <AppBar position='static' style={{ backgroundColor: controlledStyles && controlledStyles.mainBg }}>
           <Toolbar>
             <Hidden mdUp>
             <IconButton color='contrast' aria-label='Menu' onClick={this.toggleSidebar.bind(this, true)}>
@@ -172,7 +172,8 @@ class Header extends React.Component {
 const mapStateToProps = (state) => {
   return {
     token: state.auth.token,
-    user: state.auth.user
+    user: state.auth.user,
+    controlledStyles: state.styles
   }
 }
 

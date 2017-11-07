@@ -33,8 +33,7 @@ class DrinkingGameTemplate extends React.Component {
       .then((res) => {
         this.setState({ loaded: true, dgame: res.data || {} }, () => {
           const { dgame } = this.state
-          if (dgame.mainColour) document.body.querySelector('#app > div > div > header').style = `background: ${dgame.mainColour}`
-          if (dgame.bgColour) document.body.style = `background: ${dgame.bgColour}`
+          this.props.dispatch({ type: 'REPLACE_STYLES', styles: { mainBg: dgame.mainColour, bg: dgame.bgColour } })
         })
       })
       .catch(console.error)

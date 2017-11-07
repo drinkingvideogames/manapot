@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   query: ''
 }
 
-export default function auth (state = INITIAL_STATE, action) {
+export function games (state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'LOAD_GAMES':
       return Object.assign({}, state, { loaded: true, items: [...action.games], query: action.query })
