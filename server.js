@@ -58,6 +58,11 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
+app.use((req, res, next) => {
+  res.setHeader('X-Clacks-Overhead', 'GNU Terry Pratchett')
+  next()
+})
+
 app.use(function (req, res, next) {
   req.isAuthenticated = function () {
     var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token
@@ -119,6 +124,7 @@ app.use('/api/game', apis.game)
 app.use('/api/user', apis.user)
 app.use('/api/role', apis.role)
 app.use('/api/asset', apis.asset)
+app.use('/api/teapot', (req, res) => { res.status(418).send({ msg: 'I\'m a teapot' }) })
 
 // React server rendering
 app.use(function (req, res) {
