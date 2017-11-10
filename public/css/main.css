@@ -1382,6 +1382,13 @@ form button[type="submit"] {
 .auth-text-field {
   width: 100%; }
 
+input[autocomplete]:after {
+  background-color: rgba(100, 100, 100, 0.1) !important; }
+
+.view-component.counter {
+  text-align: center;
+  padding: 10px; }
+
 .view-component.image {
   text-align: center;
   width: 100%; }
@@ -1389,11 +1396,15 @@ form button[type="submit"] {
     height: auto;
     max-width: 100%; }
 
-.view-component.picker canvas {
-  margin-left: 50%;
-  transform: translateX(-50%); }
+.view-component.picker {
+  margin-left: 20%;
+  min-width: 500px;
+  width: 60%; }
+  .view-component.picker canvas {
+    margin-left: 50%;
+    transform: translateX(-50%); }
 
 .view-component.random {
   text-align: center; }
   .view-component.random button {
-    margin-top: 10px; }
+    margin-top: 5px; }
