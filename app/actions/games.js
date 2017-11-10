@@ -8,7 +8,7 @@ export function loadGames () {
           return response.json().then((json) => {
             dispatch({
               type: 'LOAD_GAMES',
-              games: json,
+              games: json.docs,
               query: ''
             })
           })
@@ -33,7 +33,7 @@ export function filterGames (query) {
           return response.json().then((json) => {
             dispatch({
               type: 'FILTER_GAMES',
-              games: json,
+              games: json.docs,
               query
             })
           })
@@ -58,7 +58,7 @@ export function refreshGames (currentState) {
           return response.json().then((json) => {
             dispatch({
               type: 'REFRESH_GAMES',
-              games: json
+              games: json.docs
             })
           })
         } else {

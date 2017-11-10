@@ -65,7 +65,7 @@ class Template extends React.Component {
         this.setState({ loaded: true, game: res.data[0] || {} })
         axios.get(`/api/drink/game/${res.data[0]._id}`)
           .then((res) => {
-            this.setState({ loadedGames: true, games: res.data || [] })
+            this.setState({ loadedGames: true, games: res.data && res.data.docs || [] })
           })
           .catch(console.error)
       })
